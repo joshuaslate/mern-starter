@@ -1,7 +1,7 @@
 const config = require('./main');
-const stripe = require('stripe');
+const stripe = require('stripe')(config.stripeApiKey);
+const User = require('../models/user');
 
-stripe.setApiKey(config.stripeApiKey);
 stripe.setTimeout(20000);
 
 exports.createCustomer = function(stripeToken, email, plan) {
@@ -10,7 +10,24 @@ exports.createCustomer = function(stripeToken, email, plan) {
     description: email,
     source: stripeToken
   }).then(function(customer) {
-    // Return customer object and subscribe to plan
+    // Return customer object and save ID to user
+    User.findOne({ email: email }, function(err, user) {
+      if (err) { return err; }
+
+      if (!email) {
+        return console.log("No user found with the provided email address");
+      }
+
+      user.customerId = customer.id;
+
+      user.save(function(err) {
+        if (err) { return err; }
+
+        return customer;
+      });
+    });
+    // Subscribe to plan
+
   }).catch(function(err) {
     return err;
   });

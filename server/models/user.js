@@ -26,8 +26,9 @@ const UserSchema = new Schema({
     enum: ['Member', 'Client', 'Owner', 'Admin'],
     default: 'Member'
   },
-  resetPasswordToken: String,
-  resetPasswordExpires: Date
+  customerId: { type: String },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date }
 },
 {
   timestamps: true
