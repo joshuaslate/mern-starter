@@ -27,6 +27,7 @@ const UserSchema = new Schema({
     default: 'Member'
   },
   customerId: { type: String },
+  activeUntil: { type: Date },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
 },
