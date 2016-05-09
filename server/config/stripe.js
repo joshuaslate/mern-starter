@@ -15,3 +15,11 @@ exports.createCustomer = function(stripeToken, email, plan) {
     return err;
   });
 }
+
+exports.retrieveWebhook = function(eventId) {
+  stripe.events.retrieve(eventId, function(err, event) {
+    if (err) { return err; }
+
+    return event;
+  });
+}

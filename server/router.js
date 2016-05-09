@@ -1,6 +1,7 @@
 const AuthenticationController = require('./controllers/authentication'),
       UserController = require('./controllers/user'),
       ChatController = require('./controllers/chat'),
+      StripeController = require('./controllers/stripe'),
       express = require('express'),
       passportService = require('./config/passport'),
       passport = require('passport');
@@ -20,7 +21,8 @@ module.exports = function(app) {
   const apiRoutes = express.Router(),
         authRoutes = express.Router(),
         userRoutes = express.Router(),
-        chatRoutes = express.Router();
+        chatRoutes = express.Router(),
+        payRoutes = express.Router();
 
   //=========================
   // Auth Routes
@@ -67,6 +69,14 @@ module.exports = function(app) {
 
   // Send new message
   chatRoutes.post('/send', requireAuth, ChatController.sendMessage);
+
+  //=========================
+  // Payment Routes
+  //=========================
+  apiRoutes.use('/pay', payRoutes);
+
+  // Webhook endpoint for Stripe
+  payRoutes.post('/webhook-notify', StripeController.webhook);
 
   // Setting endpoint for apiRoutes
   app.use('/api', apiRoutes);
