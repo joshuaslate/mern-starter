@@ -1,0 +1,32 @@
+{
+  "name": "mern-starter-server",
+  "version": "1.0.0",
+  "description": "API server for MERN Starter, powered by Express.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "mern",
+    "api",
+    "server-side"
+  ],
+  "author": "Joshua Slate",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "jsonwebtoken": "^5.7.0",
+    "mailchimp-v3": "^1.0.1",
+    "mailgun-js": "^0.7.10",
+    "mongoose": "^4.4.13",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "stripe": "^4.6.0"
+  }
+}

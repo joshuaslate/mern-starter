@@ -1,0 +1,46 @@
+// Google Fonts
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,400italic);
+
+// Body
+$font-stack: 'Open Sans', sans-serif;
+$main-background: #EFEFEF;
+
+// Navigation
+$hover-background: #E7E7E7;
+$hover-text: #555;
+
+body {
+  background: $main-background;
+  padding-top: 70px;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+  color: $hover-text;
+  background-color: $hover-background;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+ul.footer-nav {
+  padding:0;
+  margin: 0;
+
+  >li {
+    display:inline-block;
+    padding-right:5px;
+  }
+}
+
+.footer-nav li::after {
+  content: " |";
+}
+
+.footer-nav li:last-of-type::after {
+  content: "";
+}
+
+p.copyright>span {
+  color: #777;
+}
