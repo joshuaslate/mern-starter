@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 exports.webhook = function(req, res, next) {
   // Store the event ID from the webhook
-  const receivedEvent = req.body.id;
+  const receivedEvent = req.body.data.id;
 
   // Request to expand the webhook for added security
   const verifiedEvent = stripe.retrieveWebhook(receivedEvent);
