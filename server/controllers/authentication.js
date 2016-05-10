@@ -149,7 +149,7 @@ exports.forgotPassword = function(req, res, next) {
           // Otherwise, send user email via Mailgun
           mailgun.sendEmail(existingUser.email, message);
 
-          res.status(200).json({ message: 'Please check your email for the link to reset your password.'});
+          res.status(200).json({ message: 'Please check your email for the link to reset your password.' });
           next();
         });
       });

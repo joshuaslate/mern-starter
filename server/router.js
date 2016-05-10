@@ -2,6 +2,7 @@ const AuthenticationController = require('./controllers/authentication'),
       UserController = require('./controllers/user'),
       ChatController = require('./controllers/chat'),
       StripeController = require('./controllers/stripe'),
+      CommunicationController = require('./controllers/communication'),
       express = require('express'),
       passportService = require('./config/passport'),
       passport = require('passport');
@@ -22,7 +23,8 @@ module.exports = function(app) {
         authRoutes = express.Router(),
         userRoutes = express.Router(),
         chatRoutes = express.Router(),
-        payRoutes = express.Router();
+        payRoutes = express.Router(),
+        communicationRoutes = express.Router();
 
   //=========================
   // Auth Routes
@@ -80,4 +82,12 @@ module.exports = function(app) {
 
   // Setting endpoint for apiRoutes
   app.use('/api', apiRoutes);
+
+  //=========================
+  // Communication Routes
+  //=========================
+  apiRoutes.use('/communication', communicationRoutes);
+
+  // Send email from contact form
+  communicationRoutes.post('/contact', CommunicationController.sendContactForm);
 }

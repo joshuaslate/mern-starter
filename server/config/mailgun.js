@@ -12,6 +12,19 @@ exports.sendEmail = function(recipient, message) {
     };
 
     mailgun.messages().send(data, function(error, body) {
-      console.log(body);
+    //  console.log(body);
     });
   }
+
+exports.contactForm = function(sender, message) {
+  const data = {
+    from: sender,
+    to: 'you@yourdomain.com',
+    subject: message.subject,
+    text: message.text
+  };
+
+  mailgun.messages().send(data, function(error, body) {
+  //  console.log(body);
+  });
+}
