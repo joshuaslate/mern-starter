@@ -6,7 +6,6 @@ Starter/seed project for MongoDB, Express, React, Node full-stack JavaScript app
 - Finish user profile pages (edit, view profile, etc.)
 - Contact form
 - Livechat support
-- Analytics
 
 ## Longer-term Goals
 - Social login integration

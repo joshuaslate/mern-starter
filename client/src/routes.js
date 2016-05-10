@@ -18,7 +18,6 @@ import ResetPassword from './components/auth/reset_password';
 // Import dashboard pages
 import Dashboard from './components/dashboard';
 import ViewProfile from './components/dashboard/profile/view-profile';
-import EditProfile from './components/dashboard/profile/edit-profile';
 import Inbox from './components/dashboard/messaging/inbox';
 
 // Import higher order components
@@ -37,7 +36,6 @@ export default (
     <Route path="dashboard">
       <IndexRoute component={RequireAuth(Dashboard)} />
       <Route path="profile" component={RequireAuth(ViewProfile)} />
-      <Route path="profile/edit" component={RequireAuth(EditProfile)} />
       <Route path="inbox" component={RequireAuth(Inbox)} />
     </Route>
 
