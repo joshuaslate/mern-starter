@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken'),
       crypto = require('crypto'),
+      moment = require('moment'),
       User = require('../models/user'),
       mailgun = require('../config/mailgun'),
       mailchimp = require('../config/mailchimp'),
@@ -90,6 +91,16 @@ exports.roleAuthorization = function(role) {
 
       // If user is found, check role.
       if (foundUser.role == role) {
+        // If user is a subscribed role, check if they're active/paid
+        if (foundUser.role == "Client") {
+          if (moment(foundUser.activeUntil).isAfter()) {
+            return next();
+          }
+          res.status(401).json({ error: 'Your subscription has expired. Please renew. '});
+          return next('Unauthorized');
+        }
+
+        // Allow them to proceed
         return next();
       }
 
