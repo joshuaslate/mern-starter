@@ -176,3 +176,19 @@ export function fetchMessages() {
     .catch(response => dispatch(errorHandler(response.data.error)))
   }
 }
+
+//================================
+// Contact Form actions
+//================================
+export function sendContactForm({ firstName, lastName, subject, message}) {
+  return function(dispatch) {
+    axios.get(`${API_URL}/communication/contact`, { firstName, lastName, subject, message})
+    .then(response => {
+      dispatch({
+        type: SEND_CONTACT_FORM,
+        payload: response.data.message
+      });
+    })
+    .catch(response => dispatch(errorHandler(response.data.error)))
+  }
+}

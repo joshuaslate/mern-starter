@@ -7,6 +7,7 @@ import NotFoundPage from './components/not-found-page';
 
 // Import static pages
 import HomePage from './components/home-page';
+import ContactForm from './components/pages/contact-form';
 
 // Import authentication related pages
 import Register from './components/auth/register';
@@ -31,6 +32,7 @@ export default (
     <Route path="logout" component={Logout} />
     <Route path="forgot-password" component={ForgotPassword} />
     <Route path="reset-password/:resetToken" component={ResetPassword} />
+    <Route path="contact-us" component={ContactForm} />
 
 
     <Route path="dashboard">
