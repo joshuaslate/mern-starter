@@ -2,6 +2,13 @@ const stripe = require('../config/stripe');
 const moment = require('moment');
 const User = require('../models/user');
 
+// TODO:
+// Plan upgrade, downgrade
+// Proration, refund, trial period
+// Plan cancellation
+// Payment failure (send email)
+// Handle invoices
+
 exports.webhook = function(req, res, next) {
   // Store the event ID from the webhook
   const receivedEvent = req.body.data.id;
@@ -11,9 +18,11 @@ exports.webhook = function(req, res, next) {
 
   // Respond to webhook events, depending on what they are
   switch(verifiedEvent.type) {
+    // On successful customer creation
     case "customer.created":
       console.log("Customer was created...");
       break;
+    // On successful charge
     case "charge.succeeded":
       User.findOne({ customerId: verifiedEvent.data.object.card.customer }, function(err, user) {
         if (err) { return err; }
