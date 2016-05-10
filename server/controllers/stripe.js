@@ -1,4 +1,6 @@
 const stripe = require('../config/stripe');
+const moment = require('moment');
+const User = require('../models/user');
 
 exports.webhook = function(req, res, next) {
   // Store the event ID from the webhook
@@ -11,6 +13,22 @@ exports.webhook = function(req, res, next) {
   switch(verifiedEvent.type) {
     case "customer.created":
       console.log("Customer was created...");
+      break;
+    case "charge.succeeded":
+      User.findOne({ customerId: verifiedEvent.data.object.card.customer }, function(err, user) {
+        if (err) { return err; }
+
+        // Add a month to the user's subscription
+        user.activeUntil = moment().add(1, "months");
+
+        // Save user with subscription
+        user.save(function(err) {
+          if (err) { return err; }
+
+          return user;
+        });
+      });
+
       break;
     default:
       console.log("Unrecognized action " + verifiedEvent.type + " received.");
