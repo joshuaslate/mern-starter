@@ -10,7 +10,8 @@ import { AUTH_USER,
          PROTECTED_TEST,
          FETCH_USER,
          FETCH_MESSAGES,
-         EDIT_PROFILE_REQUEST } from './types';
+         EDIT_PROFILE_REQUEST,
+         SEND_CONTACT_FORM } from './types';
 
 const API_URL = 'http://localhost:3000/api';
 
@@ -119,21 +120,9 @@ export function resetPassword( token, { password }) {
   }
 }
 
-export function editUserProfile( uid, { gender, birthDate, units, height, weight,
-  medication, allergy, heart, lung, diabetes, cancer, stroke, mental, injury,
-  medicalOther, medicalMoreDetail, medicalOtherConcerns, occupation, smoke,
-  drink, drugs, lifestyleExplanation, goal, nutrition, nutritionExplanation,
-  enjoyedActivity, dumbbell, barbell, cardioMachine, resistanceMachine, medicineBall,
-  resistanceBand, kettleBell, speedAgility, swimmingPool, equipmentExplanation
-} ) {
+export function editUserProfile( uid, {}) {
   return function(dispatch) {
-    axios.post(`${API_URL}/user/${uid}`, { gender, birthDate, units, height, weight,
-      medication, allergy, heart, lung, diabetes, cancer, stroke, mental, injury,
-      medicalOther, medicalMoreDetail, medicalOtherConcerns, occupation, smoke,
-      drink, drugs, lifestyleExplanation, goal, nutrition, nutritionExplanation,
-      enjoyedActivity, dumbbell, barbell, cardioMachine, resistanceMachine, medicineBall,
-      resistanceBand, kettleBell, speedAgility, swimmingPool, equipmentExplanation
-    })
+    axios.post(`${API_URL}/user/${uid}`, {})
     .then(response => {
       dispatch({
         type: EDIT_PROFILE_REQUEST,
@@ -180,9 +169,9 @@ export function fetchMessages() {
 //================================
 // Contact Form actions
 //================================
-export function sendContactForm({ firstName, lastName, subject, message}) {
+export function sendContactForm({ firstName, lastName, email, subject, message}) {
   return function(dispatch) {
-    axios.get(`${API_URL}/communication/contact`, { firstName, lastName, subject, message})
+    axios.get(`${API_URL}/communication/contact`, { firstName, lastName, email, subject, message})
     .then(response => {
       dispatch({
         type: SEND_CONTACT_FORM,

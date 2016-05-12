@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
 
-class ContactForm extends Component {
+class ContactPage extends Component {
   static contextTypes = {
     router: React.PropTypes.object
   }
@@ -11,8 +11,8 @@ class ContactForm extends Component {
     this.props.clearErrors();
   }
 
-  handleFormSubmit({ firstName, lastName, subject, message }) {
-    this.props.sendContactForm({ firstName, lastName, subject, message });
+  handleFormSubmit({ firstName, lastName, email, subject, message }) {
+    this.props.sendContactForm({ firstName, lastName, email, subject, message });
   }
 
   renderAlert() {
@@ -36,7 +36,7 @@ class ContactForm extends Component {
   }
 
   render() {
-    const { handleSubmit, fields: { firstName, lastName, subject, message } } = this.props;
+    const { handleSubmit, fields: { firstName, lastName, email, subject, message } } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -57,6 +57,15 @@ class ContactForm extends Component {
         </div>
       </div>
 
+    <div className="row">
+      <div className="col-md-12">
+        <fieldset className="form-group">
+          <label>Email Address</label>
+          <input {...email} className="form-control" />
+        </fieldset>
+      </div>
+    </div>
+
       <div className="row">
         <div className="col-md-12">
           <fieldset className="form-group">
@@ -70,7 +79,7 @@ class ContactForm extends Component {
         <div className="col-md-12">
           <fieldset className="form-group">
             <label>Message</label>
-            <textarea {...firstName} className="form-control" />
+            <textarea {...message} className="form-control" />
           </fieldset>
         </div>
       </div>
@@ -82,10 +91,10 @@ class ContactForm extends Component {
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.auth.error, message: state.auth.message };
+  return { errorMessage: state.communication.error, message: state.communication.message };
 }
 
 export default reduxForm({
-  form: 'contactForm',
-  fields: ['firstName', 'lastName', 'subject', 'message']
-}, mapStateToProps, actions)(ContactForm);
+  form: 'contactPage',
+  fields: ['firstName', 'lastName', 'email', 'subject', 'message']
+}, mapStateToProps, actions)(ContactPage);

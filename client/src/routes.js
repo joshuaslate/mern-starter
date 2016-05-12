@@ -3,11 +3,11 @@ import { Route, IndexRoute } from 'react-router';
 
 // Import miscellaneous routes and other requirements
 import App from './components/app';
-import NotFoundPage from './components/not-found-page';
+import NotFoundPage from './components/pages/not-found-page';
 
 // Import static pages
-import HomePage from './components/home-page';
-import ContactForm from './components/pages/contact-form';
+import HomePage from './components/pages/home-page';
+import ContactPage from './components/pages/contact-page';
 
 // Import authentication related pages
 import Register from './components/auth/register';
@@ -32,8 +32,7 @@ export default (
     <Route path="logout" component={Logout} />
     <Route path="forgot-password" component={ForgotPassword} />
     <Route path="reset-password/:resetToken" component={ResetPassword} />
-    <Route path="contact-us" component={ContactForm} />
-
+    <Route path="contact-us" component={ContactPage} />
 
     <Route path="dashboard">
       <IndexRoute component={RequireAuth(Dashboard)} />

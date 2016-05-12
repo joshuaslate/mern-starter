@@ -26,7 +26,7 @@ class Inbox extends Component {
 }
 
 function mapStateToProps(state) {
-  messages: state.messaging.messages
+  messages: state.communication.messages
 }
 
 export default connect(mapStateToProps, actions)(Inbox);

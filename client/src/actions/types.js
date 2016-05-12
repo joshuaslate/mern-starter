@@ -16,6 +16,7 @@ export const FETCH_USER = 'fetch_user',
              EDIT_PROFILE_REQUEST = 'edit_profile_request';
 
 //======================
-// Messaging Actions
+// Communication Actions
 //======================
-export const FETCH_MESSAGES = 'fetch_messages';
+export const FETCH_MESSAGES = 'fetch_messages',
+             SEND_CONTACT_FORM = 'send_contact_form';
