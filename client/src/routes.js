@@ -12,7 +12,6 @@ import ComponentSamplesPage from './components/pages/component-samples';
 
 // Import authentication related pages
 import Register from './components/auth/register';
-import InitialProfile from './components/dashboard/profile/edit/initial-profile';
 import Login from './components/auth/login';
 import Logout from './components/auth/logout';
 import ForgotPassword from './components/auth/forgot_password';
@@ -21,7 +20,6 @@ import ResetPassword from './components/auth/reset_password';
 // Import dashboard pages
 import Dashboard from './components/dashboard/dashboard';
 import ViewProfile from './components/dashboard/profile/view-profile';
-import EditProfile from './components/dashboard/profile/edit/edit-profile';
 import Inbox from './components/dashboard/messaging/inbox';
 import Conversation from './components/dashboard/messaging/conversation';
 import ComposeMessage from './components/dashboard/messaging/compose-message';
