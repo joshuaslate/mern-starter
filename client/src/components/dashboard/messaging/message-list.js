@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
+const moment = require('moment');
 
 import MessageItem from './message-item';
 
 class MessageList extends Component {
   render() {
     return (
-      <ul className="messages">
+      <div className="messages">
         {this.props.displayMessages.map(function(data) {
-          return <MessageItem key={data.id} message={data.messageBody} />
+          return data.messages.map(function(data) {
+            return <MessageItem
+            key={data._id}
+            message={data.messageBody}
+            author={data.from}
+            timestamp={moment(data.createdAt).from(moment())} />
+          })
         })}
-      </ul>
+      </div>
     );
   }
 }

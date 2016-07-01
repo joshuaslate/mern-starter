@@ -12,11 +12,27 @@ export const AUTH_USER = 'auth_user',
 //======================
 // User Profile Actions
 //======================
-export const FETCH_USER = 'fetch_user',
-             EDIT_PROFILE_REQUEST = 'edit_profile_request';
+export const FETCH_USER = 'fetch_user';
 
 //======================
-// Communication Actions
+// Messaging Actions
 //======================
-export const FETCH_MESSAGES = 'fetch_messages',
-             SEND_CONTACT_FORM = 'send_contact_form';
+export const FETCH_CONVERSATIONS = 'fetch_conversations',
+             FETCH_RECIPIENTS = 'fetch_recipients',
+             START_CONVERSATION = 'start_conversation',
+             FETCH_SINGLE_CONVERSATION = 'fetch_single_conversation',
+             SEND_REPLY = 'send_reply';
+
+//======================
+// Page Actions
+//======================
+export const SEND_CONTACT_FORM = 'send_contact_form';
+
+//======================
+// Customer Actions
+//======================
+export const CREATE_CUSTOMER = 'create_customer',
+             FETCH_CUSTOMER = 'fetch_customer',
+             CANCEL_SUBSCRIPTION = 'cancel_subscription',
+             UPDATE_BILLING = 'update_billing',
+             CHANGE_SUBSCRIPTION = 'change_subscription';

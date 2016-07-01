@@ -1,4 +1,4 @@
-import { FETCH_USER, EDIT_PROFILE_REQUEST, ERROR_RESPONSE } from '../actions/types';
+import { FETCH_USER, ERROR_RESPONSE } from '../actions/types';
 
 const INITIAL_STATE = { profile: {}, message: '', error: '' };
 
@@ -6,8 +6,6 @@ export default function (state = INITIAL_STATE, action) {
   switch(action.type) {
     case FETCH_USER:
       return { ...state, profile: action.payload };
-    case EDIT_PROFILE_REQUEST:
-      return { ...state, message: action.payload };
     case ERROR_RESPONSE:
       return { ...state, error: action.payload };
   }

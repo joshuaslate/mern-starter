@@ -3,16 +3,12 @@ import { reduxForm } from 'redux-form';
 import * as actions from '../../actions';
 
 class ContactPage extends Component {
-  static contextTypes = {
-    router: React.PropTypes.object
-  }
-
   componentWillMount() {
     this.props.clearErrors();
   }
 
-  handleFormSubmit({ firstName, lastName, email, subject, message }) {
-    this.props.sendContactForm({ firstName, lastName, email, subject, message });
+  handleFormSubmit({ firstName, lastName, emailAddress, subject, message }) {
+    this.props.sendContactForm({ firstName, lastName, emailAddress, subject, message });
   }
 
   renderAlert() {
@@ -36,7 +32,7 @@ class ContactPage extends Component {
   }
 
   render() {
-    const { handleSubmit, fields: { firstName, lastName, email, subject, message } } = this.props;
+    const { handleSubmit, fields: { firstName, lastName, emailAddress, subject, message } } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -57,14 +53,14 @@ class ContactPage extends Component {
         </div>
       </div>
 
-    <div className="row">
-      <div className="col-md-12">
-        <fieldset className="form-group">
-          <label>Email Address</label>
-          <input {...email} className="form-control" />
-        </fieldset>
+      <div className="row">
+        <div className="col-md-12">
+          <fieldset className="form-group">
+            <label>Email Address</label>
+            <input {...emailAddress} className="form-control" />
+          </fieldset>
+        </div>
       </div>
-    </div>
 
       <div className="row">
         <div className="col-md-12">
@@ -91,10 +87,12 @@ class ContactPage extends Component {
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.communication.error, message: state.communication.message };
+  return { errorMessage: state.communication.error,
+           message: state.communication.message,
+           authenticated: state.auth.authenticated };
 }
 
 export default reduxForm({
-  form: 'contactPage',
-  fields: ['firstName', 'lastName', 'email', 'subject', 'message']
+  form: 'contactForm',
+  fields: ['firstName', 'lastName', 'emailAddress', 'subject', 'message']
 }, mapStateToProps, actions)(ContactPage);
