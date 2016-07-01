@@ -1,8 +1,8 @@
 const AuthenticationController = require('./controllers/authentication'),
       UserController = require('./controllers/user'),
       ChatController = require('./controllers/chat'),
-      StripeController = require('./controllers/stripe'),
       CommunicationController = require('./controllers/communication'),
+      StripeController = require('./controllers/stripe'),
       express = require('express'),
       passportService = require('./config/passport'),
       passport = require('passport');
@@ -67,10 +67,19 @@ module.exports = function(app) {
   apiRoutes.use('/chat', chatRoutes);
 
   // View messages to and from authenticated user
-  chatRoutes.get('/inbox', requireAuth, ChatController.inbox);
+  chatRoutes.get('/conversation', requireAuth, ChatController.getConversations);
 
-  // Send new message
-  chatRoutes.post('/send', requireAuth, ChatController.sendMessage);
+  // Retrieve single conversation
+  chatRoutes.get('/conversation/:conversationId', requireAuth, ChatController.getConversation);
+
+  // Send reply in conversation
+  chatRoutes.post('/conversation/:conversationId', requireAuth, ChatController.sendReply);
+
+  // Get approved recipient list
+  chatRoutes.get('/recipients', requireAuth, ChatController.getRecipients);
+
+  // Start new conversation
+  chatRoutes.post('/start-conversation/:recipient', requireAuth, ChatController.newConversation);
 
   //=========================
   // Payment Routes
@@ -80,8 +89,20 @@ module.exports = function(app) {
   // Webhook endpoint for Stripe
   payRoutes.post('/webhook-notify', StripeController.webhook);
 
-  // Setting endpoint for apiRoutes
-  app.use('/api', apiRoutes);
+  // Create customer and subscription
+  payRoutes.post('/customer', requireAuth, StripeController.createSubscription);
+
+  // Update customer object and billing information
+  payRoutes.put('/customer', requireAuth, StripeController.updateCustomerBillingInfo);
+
+  // Delete subscription from customer
+  payRoutes.delete('/subscription', requireAuth, StripeController.deleteSubscription);
+
+  // Upgrade or downgrade subscription
+  payRoutes.put('/subscription', requireAuth, StripeController.changeSubscription);
+
+  // Fetch customer information
+  payRoutes.get('/customer', requireAuth, StripeController.getCustomer);
 
   //=========================
   // Communication Routes

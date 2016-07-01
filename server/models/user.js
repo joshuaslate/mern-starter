@@ -26,8 +26,13 @@ const UserSchema = new Schema({
     enum: ['Member', 'Client', 'Owner', 'Admin'],
     default: 'Member'
   },
-  customerId: { type: String },
-  activeUntil: { type: Date },
+  stripe: {
+    customerId: { type: String },
+    subscriptionId: { type: String },
+    lastFour: { type: String },
+    plan: { type: String },
+    activeUntil: { type: Date }
+  },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
 },

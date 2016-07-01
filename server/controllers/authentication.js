@@ -1,6 +1,7 @@
+"use strict";
+
 const jwt = require('jsonwebtoken'),
       crypto = require('crypto'),
-      moment = require('moment'),
       User = require('../models/user'),
       mailgun = require('../config/mailgun'),
       mailchimp = require('../config/mailchimp'),
@@ -14,11 +15,30 @@ function generateToken(user) {
   });
 }
 
+// Set user info from request
+function setUserInfo(request) {
+  let getUserInfo = {
+    _id: request._id,
+    firstName: request.profile.firstName,
+    lastName: request.profile.lastName,
+    email: request.email,
+    role: request.role,
+  };
+
+  return getUserInfo;
+}
+
 //========================================
 // Login Route
 //========================================
 exports.login = function(req, res, next) {
-  res.json({ token: 'JWT ' + generateToken(req.user) });
+
+  let userInfo = setUserInfo(req.user);
+
+  res.status(200).json({
+    token: 'JWT ' + generateToken(userInfo),
+    user: userInfo
+  });
 }
 
 
@@ -56,20 +76,26 @@ exports.register = function(req, res, next) {
       }
 
       // If email is unique and password was provided, create account
-      const user = new User({
+      let user = new User({
         email: email,
         password: password,
         profile: { firstName: firstName, lastName: lastName }
       });
 
-      user.save(function(err) {
+      user.save(function(err, user) {
         if (err) { return next(err); }
 
         // Subscribe member to Mailchimp list
-        mailchimp.subscribeToNewsletter(user.email);
+        // mailchimp.subscribeToNewsletter(user.email);
 
         // Respond with JWT if user was created
-        res.json({ token: 'JWT ' + generateToken(user) });
+
+        let userInfo = setUserInfo(user);
+
+        res.status(201).json({
+          token: 'JWT ' + generateToken(userInfo),
+          user: userInfo
+        });
       });
   });
 }
@@ -91,16 +117,6 @@ exports.roleAuthorization = function(role) {
 
       // If user is found, check role.
       if (foundUser.role == role) {
-        // If user is a subscribed role, check if they're active/paid
-        if (foundUser.role == "Client") {
-          if (moment(foundUser.activeUntil).isAfter()) {
-            return next();
-          }
-          res.status(401).json({ error: 'Your subscription has expired. Please renew. '});
-          return next('Unauthorized');
-        }
-
-        // Allow them to proceed
         return next();
       }
 
@@ -139,7 +155,7 @@ exports.forgotPassword = function(req, res, next) {
           if (err) { return next(err); }
 
           const message = {
-            subject: 'Your Site - Reset Password',
+            subject: 'Reset Password',
             text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
             'http://' + req.headers.host + '/reset-password/' + resetToken + '\n\n' +
@@ -149,7 +165,7 @@ exports.forgotPassword = function(req, res, next) {
           // Otherwise, send user email via Mailgun
           mailgun.sendEmail(existingUser.email, message);
 
-          res.status(200).json({ message: 'Please check your email for the link to reset your password.' });
+          res.status(200).json({ message: 'Please check your email for the link to reset your password.'});
           next();
         });
       });
@@ -178,8 +194,8 @@ exports.verifyToken = function(req, res, next) {
 
         // If password change saved successfully, alert user via email
         const message = {
-          subject: 'Your Site - Password Changed',
-          text: 'You are receiving this email because you changed your password on ImproveFit.com \n\n' +
+          subject: 'Password Changed',
+          text: 'You are receiving this email because you changed your password. \n\n' +
           'If you did not request this change, please contact us immediately.'
         }
 
