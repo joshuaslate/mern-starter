@@ -40,7 +40,6 @@ export default (
     <Route path="contact-us" component={ContactPage} />
     <Route path="component-samples" component={RequireAuth(ComponentSamplesPage)} />
     <Route path="register" component={Register} />
-    <Route path="register/profile" component={RequireAuth(InitialProfile)} />
     <Route path="login" component={Login} />
     <Route path="logout" component={Logout} />
     <Route path="forgot-password" component={ForgotPassword} />
@@ -50,7 +49,6 @@ export default (
     <Route path="billing/settings" component={RequireAuth(BillingSettings)} />
 
     <Route path="profile" component={RequireAuth(ViewProfile)} />
-    <Route path="profile/edit" component={RequireAuth(EditProfile)} />
 
     <Route path="admin" component={RequireAuth(AdminDashboard)} />
 
