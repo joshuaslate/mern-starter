@@ -47,7 +47,7 @@ exports.webhook = function(req, res, next) {
               subject: 'Payment Failed',
               text: 'You are receiving this because your most recent payment for $' + (verifiedEvent.data.object.amount_due / 100) + 'failed.' +
               '\nThis could be due to a change or expiration on your provided credit card or interference from your bank.' +
-              '\nPlease update your payment information as soon as possible by logging in at http://' + req.headers.host;
+              '\nPlease update your payment information as soon as possible by logging in at http://' + req.headers.host
             };
 
             mailgun.sendEmail(user.email, message);
