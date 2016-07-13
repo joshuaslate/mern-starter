@@ -135,8 +135,8 @@ exports.forgotPassword = function(req, res, next) {
 
   User.findOne({ email: email }, function(err, existingUser) {
     // If user is not found, return error
-    if (err) {
-      res.status(422).json({ error: 'No user was found with that email address.' });
+    if (err || existingUser == null) {
+      res.status(422).json({ error: 'Your request could not be processed as entered. Please try again.' });
       return next(err);
     }
 
