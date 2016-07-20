@@ -111,4 +111,7 @@ module.exports = function(app) {
 
   // Send email from contact form
   communicationRoutes.post('/contact', CommunicationController.sendContactForm);
-}
+  
+  // Set url for API group routes
+  app.use('/api', apiRoutes);
+};
