@@ -75,9 +75,6 @@ module.exports = function(app) {
   // Send reply in conversation
   chatRoutes.post('/conversation/:conversationId', requireAuth, ChatController.sendReply);
 
-  // Get approved recipient list
-  chatRoutes.get('/recipients', requireAuth, ChatController.getRecipients);
-
   // Start new conversation
   chatRoutes.post('/start-conversation/:recipient', requireAuth, ChatController.newConversation);
 
@@ -111,7 +108,7 @@ module.exports = function(app) {
 
   // Send email from contact form
   communicationRoutes.post('/contact', CommunicationController.sendContactForm);
-  
+
   // Set url for API group routes
   app.use('/api', apiRoutes);
 };
