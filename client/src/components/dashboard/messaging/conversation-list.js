@@ -17,13 +17,14 @@ class ConversationList extends Component {
     return (
       <div className="messages">
         {this.props.conversations.map(function(data) {
-          return <ConversationItem key={data._id}
-          message={data.lastMessage.excerpt}
-          authorId={data.lastMessage.author._id}
-          conversationPartner={data.participants[0]._id !== currentUser ? data.participants[0] : data.participants[1]}
-          conversationId={data._id}
-          author={data.lastMessage.author.profile.firstName + ' ' + data.lastMessage.author.profile.lastName.substring(0,1) + '.'}
-          timestamp={moment(data.updatedAt).from(moment())} />
+          return data.map(function(message) {
+            <ConversationItem key={message._id}
+            message={message.body}
+            authorId={message.author._id}
+            conversationId={message.conversationId}
+            author={message.author.profile.firstName + ' ' + message.author.profile.lastName.substring(0,1) + '.'}
+            timestamp={moment(message.createdAt).from(moment())} />
+          });
         })}
       </div>
     );

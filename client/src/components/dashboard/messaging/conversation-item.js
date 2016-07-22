@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class ConversationItem extends Component {
   render() {
     return (
-      <div className={this.props.conversationPartner._id == this.props.authorId ? "message" : "message current-user"}>
+      <div className="message">
         <a href={`/dashboard/conversation/view/${this.props.conversationId}`}>
         <span>Conversation with {this.props.conversationPartner.profile.firstName} {this.props.conversationPartner.profile.lastName}</span><br />
           <span className="message-body">{this.props.message}</span>

@@ -18,6 +18,10 @@ exports.getConversations = function(req, res, next) {
           Message.find({ 'conversationId': conversation._id })
             .sort('-createdAt')
             .limit(1)
+            .populate({
+              path: "author",
+              select: "profile.firstName profile.lastName"
+            })
             .exec(function(err, message) {
               fullConversations.push(message);
 
