@@ -67,16 +67,16 @@ module.exports = function(app) {
   apiRoutes.use('/chat', chatRoutes);
 
   // View messages to and from authenticated user
-  chatRoutes.get('/conversation', requireAuth, ChatController.getConversations);
+  chatRoutes.get('/', requireAuth, ChatController.getConversations);
 
   // Retrieve single conversation
-  chatRoutes.get('/conversation/:conversationId', requireAuth, ChatController.getConversation);
+  chatRoutes.get('/:conversationId', requireAuth, ChatController.getConversation);
 
   // Send reply in conversation
-  chatRoutes.post('/conversation/:conversationId', requireAuth, ChatController.sendReply);
+  chatRoutes.post('/:conversationId', requireAuth, ChatController.sendReply);
 
   // Start new conversation
-  chatRoutes.post('/start-conversation/:recipient', requireAuth, ChatController.newConversation);
+  chatRoutes.post('/new/:recipient', requireAuth, ChatController.newConversation);
 
   //=========================
   // Payment Routes

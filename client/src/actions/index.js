@@ -164,7 +164,7 @@ export function protectedTest() {
 //================================
 export function fetchConversations() {
   return function(dispatch) {
-    axios.get(`${API_URL}/chat/conversation`, {
+    axios.get(`${API_URL}/chat/`, {
       headers: { 'Authorization': cookie.load('token'),
     'Access-Control-Allow-Credentials': 'true' }
     })
@@ -182,7 +182,7 @@ export function fetchConversations() {
 
 export function fetchConversation(conversation) {
   return function(dispatch) {
-    axios.get(`${API_URL}/chat/conversation/${conversation}`, {
+    axios.get(`${API_URL}/chat/${conversation}`, {
       headers: { 'Authorization': cookie.load('token') }
     })
     .then(response => {
@@ -199,7 +199,7 @@ export function fetchConversation(conversation) {
 
 export function startConversation({ recipient, composedMessage }) {
   return function(dispatch) {
-    axios.post(`${API_URL}/chat/start-conversation/${recipient}`, {
+    axios.post(`${API_URL}/chat/new/${recipient}`, {
       composedMessage
     }, {
       headers: { 'Authorization': cookie.load('token') }
@@ -238,7 +238,7 @@ export function fetchRecipients() {
 
 export function sendReply(replyTo, { composedMessage }) {
   return function(dispatch) {
-    axios.post(`${API_URL}/chat/conversation/${replyTo}`, {
+    axios.post(`${API_URL}/chat/${replyTo}`, {
       composedMessage
     }, {
       headers: { 'Authorization': cookie.load('token') }
