@@ -6,22 +6,35 @@ const Conversation = require('../models/conversation'),
 exports.getConversations = function(req, res, next) {
   // Only return one message from each conversation to display as snippet
   Conversation.find({ participants: req.user._id })
-  .select('_id')
-  .exec(function(err, conversations) {
-    if (err) {
-      res.send({ error: err });
-      return next(err);
-    }
+    .select('_id')
+    .exec(function(err, conversations) {
+      if (err) {
+        res.send({ error: err });
+        return next(err);
+      }
 
-    res.status(200).json({ conversations: conversations });
-  });
+      let fullConversations = [];
+        conversations.forEach(function(conversation) {
+          Message.find({ 'conversationId': conversation._id })
+            .sort('-createdAt')
+            .limit(1)
+            .exec(function(err, message) {
+              fullConversations.push(message);
+
+              if(fullConversations.length === conversations.length) {
+                return res.status(200).json({ conversations: fullConversations });
+              }
+            });
+        });
+    });
 }
 
 exports.getConversation = function(req, res, next) {
-  Conversation.findById(req.params.conversationId)
-    .select('messages')
+  Message.find({ conversationId: req.params.conversationId })
+    .select('createdAt body author')
+    .sort('-createdAt')
     .populate({
-      path: 'messages.author',
+      path: 'author',
       select: 'profile.firstName profile.lastName'
     })
     .exec(function(err, messages) {
@@ -35,6 +48,16 @@ exports.getConversation = function(req, res, next) {
   }
 
 exports.newConversation = function(req, res, next) {
+  if(!req.params.recipient) {
+    res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
+    return next();
+  }
+
+  if(!req.body.composedMessage) {
+    res.status(422).send({ error: 'Please enter a message.' });
+    return next();
+  }
+
   const conversation = new Conversation({
     participants: [req.user._id, req.params.recipient]
   });
