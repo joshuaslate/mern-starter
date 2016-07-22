@@ -18,12 +18,14 @@ class ConversationList extends Component {
       <div className="messages">
         {this.props.conversations.map(function(data) {
           return data.map(function(message) {
-            <ConversationItem key={message._id}
-            message={message.body}
-            authorId={message.author._id}
-            conversationId={message.conversationId}
-            author={message.author.profile.firstName + ' ' + message.author.profile.lastName.substring(0,1) + '.'}
-            timestamp={moment(message.createdAt).from(moment())} />
+            return (
+              <ConversationItem key={message._id}
+              message={message.body}
+              authorId={message.author._id}
+              conversationId={message.conversationId}
+              author={message.author.profile.firstName + ' ' + message.author.profile.lastName.substring(0,1) + '.'}
+              timestamp={moment(message.createdAt).from(moment())} />
+            );
           });
         })}
       </div>
