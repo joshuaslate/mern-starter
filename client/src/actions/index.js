@@ -4,11 +4,10 @@ import { browserHistory } from 'react-router';
 import cookie from 'react-cookie';
 import io from 'socket.io-client';
 import { AUTH_USER,
-         ERROR_RESPONSE,
+         AUTH_ERROR,
          UNAUTH_USER,
          FORGOT_PASSWORD_REQUEST,
          RESET_PASSWORD_REQUEST,
-         CLEAR_ERRORS,
          PROTECTED_TEST,
          FETCH_USER,
          FETCH_CONVERSATIONS,
@@ -21,9 +20,13 @@ import { AUTH_USER,
          FETCH_CUSTOMER,
          CANCEL_SUBSCRIPTION,
          CHANGE_SUBSCRIPTION,
+         BILLING_ERROR,
+         CHAT_ERROR,
+         STATIC_ERROR,
          UPDATE_BILLING } from './types';
 
 const API_URL = 'http://localhost:3000/api';
+const CLIENT_ROOT_URL = 'http://localhost:8080';
 
 // Connect to socket.io server
 export const socket = io.connect('http://localhost:3000');
@@ -32,26 +35,27 @@ export const socket = io.connect('http://localhost:3000');
 // Utility actions
 //================================
 
-export function errorHandler(error) {
-  return {
-    type: ERROR_RESPONSE,
-    payload: error
-  };
-}
+export function errorHandler(dispatch, error, type) {
+  let errorMessage = '';
 
-export function clearErrors() {
-  return {
-    type: CLEAR_ERRORS
-  };
-}
-
-export function unauthError(response) {
-  if (response.status === 401) {
-    return logoutUser('Your session has expired. Please login again.');
+  if(error.data.error) {
+    errorMessage = error.data.error;
+  } else {
+    errorMessage = error.data;
   }
 
-  console.log(response);
-  return errorHandler(response.data);
+  if(error.status === 401) {
+    dispatch({
+      type: type,
+      payload: 'You are not authorized to do this. Please login and try again.'
+    });
+    logoutUser();
+  } else {
+    dispatch({
+      type: type,
+      payload: errorMessage
+    });
+  }
 }
 
 export function fetchUser(uid) {
@@ -65,7 +69,9 @@ export function fetchUser(uid) {
         payload: response.data.user
       });
     })
-    .catch(response => dispatch(errorHandler(response.data.error)))
+    .catch((error) => {
+      errorHandler(dispatch, error.response, AUTH_ERROR)
+    });
   }
 }
 
@@ -81,9 +87,11 @@ export function loginUser({ email, password }) {
       cookie.save('token', response.data.token, { path: '/' });
       cookie.save('user', response.data.user, { path: '/' });
       dispatch({ type: AUTH_USER });
-      browserHistory.push('/dashboard');
+      window.location.href = CLIENT_ROOT_URL + '/dashboard';
     })
-    .catch(response => dispatch(errorHandler(response.data.error)));
+    .catch((error) => {
+      errorHandler(dispatch, error.response, AUTH_ERROR)
+    });
     }
   }
 
@@ -94,24 +102,22 @@ export function registerUser({ email, firstName, lastName, password }) {
       cookie.save('token', response.data.token, { path: '/' });
       cookie.save('user', response.data.user, { path: '/' });
       dispatch({ type: AUTH_USER });
-      browserHistory.push('/register/profile');
+      window.location.href = CLIENT_ROOT_URL + '/dashboard';
     })
-    .catch(response => dispatch(errorHandler(response.data.error)))
+    .catch((error) => {
+      errorHandler(dispatch, error.response, AUTH_ERROR)
+    });
   }
 }
 
 export function logoutUser(error) {
-  // Destroy token and user cookies
-  cookie.remove('token', { path: '/' });
-  cookie.remove('user', { path: '/' });
+  return function (dispatch) {
+    dispatch({ type: UNAUTH_USER });
+    cookie.remove('token', { path: '/' });
+    cookie.remove('user', { path: '/' });
 
-  // If an error was received, send it.
-  errorHandler(error);
-
-  // Redirect to home page on logout
-  browserHistory.push('/');
-
-  return({ type: UNAUTH_USER });
+    window.location.href = CLIENT_ROOT_URL + '/login';
+  }
 }
 
 export function getForgotPasswordToken({ email }) {
@@ -123,7 +129,9 @@ export function getForgotPasswordToken({ email }) {
         payload: response.data.message
       });
     })
-    .catch(response => dispatch(errorHandler(response.data.error)))
+    .catch((error) => {
+      errorHandler(dispatch, error.response, AUTH_ERROR)
+    });
   }
 }
 
@@ -138,7 +146,9 @@ export function resetPassword( token, { password }) {
       // Redirect to login page on successful password reset
       browserHistory.push('/login');
     })
-    .catch(response => dispatch(errorHandler(response.data.error)))
+    .catch((error) => {
+      errorHandler(dispatch, error.response, AUTH_ERROR)
+    });
   }
 }
 
@@ -153,8 +163,8 @@ export function protectedTest() {
         payload: response.data.content
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, AUTH_ERROR)
     });
   }
 }
@@ -174,8 +184,8 @@ export function fetchConversations() {
         payload: response.data.conversations
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, CHAT_ERROR)
     });
   }
 }
@@ -191,8 +201,8 @@ export function fetchConversation(conversation) {
         payload: response.data.conversation
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, CHAT_ERROR)
     });
   }
 }
@@ -213,8 +223,8 @@ export function startConversation({ recipient, composedMessage }) {
       dispatch(reset('composeMessage'));
       browserHistory.push(`/dashboard/conversation/view/${response.data.conversationId}`);
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, CHAT_ERROR)
     });
   }
 }
@@ -230,8 +240,8 @@ export function fetchRecipients() {
         payload: response.data
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, CHAT_ERROR)
     });
   }
 }
@@ -252,8 +262,8 @@ export function sendReply(replyTo, { composedMessage }) {
       dispatch(reset('replyMessage'));
       socket.emit('new message', replyTo);
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, CHAT_ERROR)
     });
   }
 }
@@ -270,7 +280,9 @@ export function sendContactForm({ firstName, lastName, emailAddress, subject, me
         payload: response.data.message
       });
     })
-    .catch(response => dispatch(errorHandler(response.data.error)))
+    .catch((error) => {
+      errorHandler(dispatch, error.response, STATIC_ERROR)
+    });
   }
 }
 
@@ -289,8 +301,8 @@ export function createCustomer(stripeToken, plan, lastFour) {
         payload: response.data.message
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, BILLING_ERROR)
     });
   }
 }
@@ -306,8 +318,8 @@ export function fetchCustomer() {
         payload: response.data.customer
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, BILLING_ERROR)
     });
   }
 }
@@ -323,8 +335,8 @@ export function cancelSubscription() {
         payload: response.data.message
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, BILLING_ERROR)
     });
   }
 }
@@ -341,8 +353,8 @@ export function updateSubscription(newPlan) {
         payload: response.data.message
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, BILLING_ERROR)
     });
   }
 }
@@ -359,8 +371,8 @@ export function updateBilling(stripeToken) {
         payload: response.data.message
       });
     })
-    .catch((response) => {
-      unauthError(response);
+    .catch((error) => {
+      errorHandler(dispatch, error.response, BILLING_ERROR)
     });
   }
 }

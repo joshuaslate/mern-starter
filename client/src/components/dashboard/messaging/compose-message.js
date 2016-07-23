@@ -1,6 +1,29 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
-import * as actions from '../../../actions/index';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { fetchRecipients, startConversation } from '../../../actions';
+
+const form = reduxForm({
+  form: 'composeMessage',
+  validate
+});
+
+function validate(formProps) {
+  const errors = {};
+
+  if (!formProps.composedMessage) {
+    errors.password = 'Please enter a message';
+  }
+
+  return errors;
+}
+
+const renderField = field => (
+    <div>
+      <input className="form-control" autoComplete="off" {...field.input}/>
+      {field.touched && field.error && <div className="error">{field.error}</div>}
+    </div>
+);
 
 class ComposeMessage extends Component {
   constructor(props) {
@@ -22,26 +45,36 @@ class ComposeMessage extends Component {
     }
   }
 
+  renderAlert() {
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.errorMessage}
+        </div>
+      );
+    } else if (this.props.message) {
+      return (
+        <div className="alert alert-success">
+          <strong>Success!</strong> {this.props.message}
+        </div>
+      );
+    }
+  }
+
   render() {
-    const { handleSubmit, fields: { recipient, composedMessage } } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
       <h2>Start New Conversation</h2>
-        <select {...recipient}
-        value={recipient.value || ''}
-        className="form-control">
+        <Field className="form-control" name="recipient" component="select">
           <option></option>
           {this.renderRecipients()}
-        </select>
+        </Field>
 
         <label>Enter your message below</label>
-        <input
-        type="text"
-        autoComplete="off"
-        className="form-control"
-        placeholder="Type here to chat..."
-        {...composedMessage} />
+        {this.renderAlert()}
+        <Field name="composedMessage" component={renderField} type="text" placeholder="Type here to chat..." />
         <button action="submit" className="btn btn-primary">Send</button>
       </form>
     );
@@ -50,11 +83,9 @@ class ComposeMessage extends Component {
 
 function mapStateToProps(state) {
   return {
-    recipients: state.communication.recipients
+    recipients: state.communication.recipients,
+    errorMessage: state.communication.error
   }
 }
 
-export default reduxForm({
-  form: 'composeMessage',
-  fields: ['recipient', 'composedMessage']
-}, mapStateToProps, actions)(ComposeMessage);
+export default connect(mapStateToProps, { fetchRecipients, startConversation })(form(ComposeMessage));

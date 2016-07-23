@@ -1,5 +1,5 @@
 import { FETCH_CONVERSATIONS, SEND_CONTACT_FORM, SEND_REPLY, START_CONVERSATION,
-  FETCH_SINGLE_CONVERSATION, FETCH_RECIPIENTS, ERROR_RESPONSE } from '../actions/types';
+  FETCH_SINGLE_CONVERSATION, FETCH_RECIPIENTS, CHAT_ERROR } from '../actions/types';
 
 const INITIAL_STATE = { conversations: [], message: '', messages: [],
                       recipients: [], error: ''}
@@ -18,7 +18,7 @@ export default function (state = INITIAL_STATE, action) {
       return { ...state, message: action.payload };
     case SEND_CONTACT_FORM:
       return { ...state, message: action.payload };
-    case ERROR_RESPONSE:
+    case CHAT_ERROR:
       return { ...state, error: action.payload };
   }
 

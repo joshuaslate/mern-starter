@@ -28,6 +28,22 @@ class BillingSettings extends Component {
     this.props.updateSubscription(this.state.newPlan);
   }
 
+  renderAlert() {
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <strong>Oops!</strong> {this.props.errorMessage}
+        </div>
+      );
+    } else if (this.props.message) {
+      return (
+        <div className="alert alert-success">
+          <strong>Success!</strong> {this.props.message}
+        </div>
+      );
+    }
+  }
+
   renderPlan() {
     if(this.props.customer.subscriptions) {
       let mostRecentSubscription = this.props.customer.subscriptions.total_count - 1;
@@ -137,6 +153,7 @@ class BillingSettings extends Component {
   render() {
     return (
       <div className="user-subscription">
+        {this.renderAlert()}
         {this.renderPlan()}
       </div>
     );

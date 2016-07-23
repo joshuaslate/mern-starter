@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
-import * as actions from '../../actions';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { getForgotPasswordToken } from '../../actions';
+
+const form = reduxForm({
+  form: 'forgotPassword'
+});
 
 class ForgotPassword extends Component {
   static contextTypes = {
@@ -19,42 +24,42 @@ class ForgotPassword extends Component {
     }
   }
 
-  handleFormSubmit({ email }) {
-    this.props.getForgotPasswordToken({ email });
+  handleFormSubmit(formProps) {
+    this.props.getForgotPasswordToken(formProps);
   }
 
   renderAlert() {
-    if (this.props.errorMessage) {
+    if(this.props.errorMessage) {
       return (
-        <div className="alert alert-danger">
-          <strong>Oops!</strong> {this.props.errorMessage}
+        <div>
+          <span><strong>Error!</strong> {this.props.errorMessage}</span>
         </div>
       );
     }
   }
 
   render() {
-    const { handleSubmit, fields: { email } } = this.props;
+    const { handleSubmit } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <fieldset className="form-group">
-          <label>Email:</label>
-          <input {...email} className="form-control" />
-        </fieldset>
-
-        {this.renderAlert()}
-        <button action="submit" className="btn btn-primary">Reset Password</button>
+        <div>
+          {this.renderAlert()}
+          <label>Email</label>
+          <Field name="email" className="form-control" component="input" type="text" />
+        </div>
+        <button type="submit" className="btn btn-primary">Reset Password</button>
       </form>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.auth.error };
+  return {
+    errorMessage: state.auth.error,
+    message: state.auth.message,
+    authenticated: state.auth.authenticated
+  };
 }
 
-export default reduxForm({
-  form: 'forgot_password',
-  fields: ['email']
-}, mapStateToProps, actions)(ForgotPassword);
+export default connect(mapStateToProps, { getForgotPasswordToken })(form(ForgotPassword));
