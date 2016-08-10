@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { resetPassword } from '../../actions';
+import { resetPassword } from '../../actions/auth';
 
 const form = reduxForm({
   form: 'resetPassword',

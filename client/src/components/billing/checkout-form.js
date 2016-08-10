@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CheckoutFields from './checkout-fields';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import * as actions from '../../actions/billing';
 
 /* TODO:
 *   - Pass more information down with redux state (i.e., billing address initial val)

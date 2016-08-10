@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { getForgotPasswordToken } from '../../actions';
+import { getForgotPasswordToken } from '../../actions/auth';
 
 const form = reduxForm({
   form: 'forgotPassword'

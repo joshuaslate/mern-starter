@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cookie from 'react-cookie';
 import { connect } from 'react-redux';
-import * as actions from '../../../actions';
+import { fetchUser } from '../../../actions/index';
 
 import UserInfo from './user-info';
 
@@ -25,4 +25,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, actions)(ViewProfile);
+export default connect(mapStateToProps, { fetchUser })(ViewProfile);

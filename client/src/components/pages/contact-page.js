@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
-import * as actions from '../../actions';
+import { sendContactForm } from '../../actions/index';
 
 class ContactPage extends Component {
-  componentWillMount() {
-    this.props.clearErrors();
-  }
-
   handleFormSubmit({ firstName, lastName, emailAddress, subject, message }) {
     this.props.sendContactForm({ firstName, lastName, emailAddress, subject, message });
   }
@@ -95,4 +91,4 @@ function mapStateToProps(state) {
 export default reduxForm({
   form: 'contactForm',
   fields: ['firstName', 'lastName', 'emailAddress', 'subject', 'message']
-}, mapStateToProps, actions)(ContactPage);
+}, mapStateToProps, { sendContactForm })(ContactPage);

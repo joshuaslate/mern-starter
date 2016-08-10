@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import * as actions from '../../../actions/index';
+import { fetchConversations } from '../../../actions/messaging';
 
 import ConversationList from './conversation-list';
 
@@ -41,4 +41,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, actions)(Inbox);
+export default connect(mapStateToProps, { fetchConversations })(Inbox);

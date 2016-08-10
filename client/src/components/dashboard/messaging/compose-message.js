@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { fetchRecipients, startConversation } from '../../../actions';
+import { fetchRecipients, startConversation } from '../../../actions/messaging';
 
 const form = reduxForm({
   form: 'composeMessage',

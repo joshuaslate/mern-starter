@@ -52,7 +52,7 @@ module.exports = function(app) {
   apiRoutes.use('/user', userRoutes);
 
   // View user profile route
-  userRoutes.get('/:user_id', requireAuth, UserController.viewProfile);
+  userRoutes.get('/:userId', requireAuth, UserController.viewProfile);
 
   // Test protected route
   apiRoutes.get('/protected', requireAuth, function(req, res) {
