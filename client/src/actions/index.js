@@ -41,7 +41,7 @@ export function errorHandler(dispatch, error, type) {
 
 // Post Request
 export function postData(action, errorType, isAuthReq, url, dispatch, data) {
-  const requestUrl = api_url + url;
+  const requestUrl = API_URL + url;
   let headers = {};
 
   if(isAuthReq) {
@@ -62,7 +62,7 @@ export function postData(action, errorType, isAuthReq, url, dispatch, data) {
 
 // Get Request
 export function getData(action, errorType, isAuthReq, url, dispatch) {
-  const requestUrl = api_url + url;
+  const requestUrl = API_URL + url;
   let headers = {};
 
   if(isAuthReq) {
@@ -83,7 +83,7 @@ export function getData(action, errorType, isAuthReq, url, dispatch) {
 
 // Put Request
 export function putData(action, errorType, isAuthReq, url, dispatch, data) {
-  const requestUrl = api_url + url;
+  const requestUrl = API_URL + url;
   let headers = {};
 
   if(isAuthReq) {
@@ -104,7 +104,7 @@ export function putData(action, errorType, isAuthReq, url, dispatch, data) {
 
 // Delete Request
 export function deleteData(action, errorType, isAuthReq, url, dispatch) {
-  const requestUrl = api_url + url;
+  const requestUrl = API_URL + url;
   let headers = {};
 
   if(isAuthReq) {
