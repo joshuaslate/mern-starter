@@ -1,11 +1,10 @@
-
-
-const jwt = require('jsonwebtoken'),
-  crypto = require('crypto'),
-  User = require('../models/user'),
-  mailgun = require('../config/mailgun'),
-  mailchimp = require('../config/mailchimp'),
-  config = require('../config/main');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const User = require('../models/user');
+const mailgun = require('../config/mailgun');
+const mailchimp = require('../config/mailchimp');
+const setUserInfo = require('../helpers').setUserInfo;
+const config = require('../config/main');
 
 // Generate JWT
 // TO-DO Add issuer and audience
@@ -13,19 +12,6 @@ function generateToken(user) {
   return jwt.sign(user, config.secret, {
     expiresIn: 10080 // in seconds
   });
-}
-
-// Set user info from request
-function setUserInfo(request) {
-  const getUserInfo = {
-    _id: request._id,
-    firstName: request.profile.firstName,
-    lastName: request.profile.lastName,
-    email: request.email,
-    role: request.role
-  };
-
-  return getUserInfo;
 }
 
 //= =======================================
