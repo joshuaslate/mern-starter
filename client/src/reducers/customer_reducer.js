@@ -3,7 +3,7 @@ import { CREATE_CUSTOMER, BILLING_ERROR, FETCH_CUSTOMER, CANCEL_SUBSCRIPTION, CH
 const INITIAL_STATE = { message: '', error: '', customer: {} };
 
 export default function (state = INITIAL_STATE, action) {
-  switch(action.type) {
+  switch (action.type) {
     case CREATE_CUSTOMER:
       return { ...state, message: action.payload.message };
     case FETCH_CUSTOMER:

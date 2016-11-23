@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   communication: communicationReducer,
-  customer: customerReducer
+  customer: customerReducer,
 });
 
 export default rootReducer;

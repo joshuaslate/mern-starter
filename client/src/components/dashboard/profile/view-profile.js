@@ -21,8 +21,8 @@ class ViewProfile extends Component {
 
 function mapStateToProps(state) {
   return {
-    profile: state.user.profile
-  }
+    profile: state.user.profile,
+  };
 }
 
 export default connect(mapStateToProps, { fetchUser })(ViewProfile);

@@ -5,7 +5,7 @@ import { fetchRecipients, startConversation } from '../../../actions/messaging';
 
 const form = reduxForm({
   form: 'composeMessage',
-  validate
+  validate,
 });
 
 function validate(formProps) {
@@ -19,10 +19,10 @@ function validate(formProps) {
 }
 
 const renderField = field => (
-    <div>
-      <input className="form-control" autoComplete="off" {...field.input}/>
-      {field.touched && field.error && <div className="error">{field.error}</div>}
-    </div>
+  <div>
+    <input className="form-control" autoComplete="off" {...field.input} />
+    {field.touched && field.error && <div className="error">{field.error}</div>}
+  </div>
 );
 
 class ComposeMessage extends Component {
@@ -40,7 +40,7 @@ class ComposeMessage extends Component {
     if (this.props.recipients) {
       return (
         this.props.recipients.map(data => <option key={data._id} value={data._id}>
-        {data.profile.firstName} {data.profile.lastName}</option>)
+          {data.profile.firstName} {data.profile.lastName}</option>)
       );
     }
   }
@@ -66,9 +66,9 @@ class ComposeMessage extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-      <h2>Start New Conversation</h2>
+        <h2>Start New Conversation</h2>
         <Field className="form-control" name="recipient" component="select">
-          <option></option>
+          <option />
           {this.renderRecipients()}
         </Field>
 
@@ -84,8 +84,8 @@ class ComposeMessage extends Component {
 function mapStateToProps(state) {
   return {
     recipients: state.communication.recipients,
-    errorMessage: state.communication.error
-  }
+    errorMessage: state.communication.error,
+  };
 }
 
 export default connect(mapStateToProps, { fetchRecipients, startConversation })(form(ComposeMessage));

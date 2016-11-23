@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 
 class RotatorNav extends Component {
   renderNav() {
-    let toMap = [];
+    const toMap = [];
 
     for (let i = 0; i < this.props.length; i++) {
       toMap.push(
-        <li key={i + "nav"}
-        value={i}
-        className={i == this.props.active ? "slider-nav-bullet active" : "slider-nav-bullet"}
-        onClick={this.props.setPage}
-        ></li>
+        <li
+          key={`${i}nav`}
+          value={i}
+          className={i == this.props.active ? 'slider-nav-bullet active' : 'slider-nav-bullet'}
+          onClick={this.props.setPage}
+        />,
       );
     }
     return toMap;

@@ -18,7 +18,7 @@ class Conversation extends Component {
     socket.emit('enter conversation', params.conversationId);
 
     // Listen for refresh messages from socket server
-    socket.on('refresh messages', function(data) {
+    socket.on('refresh messages', (data) => {
       fetchConversation(params.conversationId);
     });
   }
@@ -28,7 +28,7 @@ class Conversation extends Component {
   }
 
   renderInbox() {
-    if(this.props.messages) {
+    if (this.props.messages) {
       return (
         <MessageList displayMessages={this.props.messages} />
       );
@@ -42,7 +42,7 @@ class Conversation extends Component {
           <div className="panel-body">
             <h4 className="left">Conversation with {this.props.params.conversationId}</h4>
             <Link className="right" to="/dashboard/inbox">Back to Inbox</Link>
-            <div className="clearfix"></div>
+            <div className="clearfix" />
             { this.renderInbox() }
           </div>
         </div>
@@ -54,8 +54,8 @@ class Conversation extends Component {
 
 function mapStateToProps(state) {
   return {
-  messages: state.communication.messages
-  }
+    messages: state.communication.messages,
+  };
 }
 
 export default connect(mapStateToProps, actions)(Conversation);

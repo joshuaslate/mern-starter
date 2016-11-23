@@ -3,7 +3,7 @@ import { FETCH_CONVERSATIONS, SEND_CONTACT_FORM, SEND_REPLY, START_CONVERSATION,
 const INITIAL_STATE = { conversations: [], message: '', messages: [], recipients: [], error: '' };
 
 export default function (state = INITIAL_STATE, action) {
-  switch(action.type) {
+  switch (action.type) {
     case FETCH_CONVERSATIONS:
       return { ...state, conversations: action.payload.conversations };
     case FETCH_SINGLE_CONVERSATION:

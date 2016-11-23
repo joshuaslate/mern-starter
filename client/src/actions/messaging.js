@@ -8,17 +8,17 @@ import { CHAT_ERROR, FETCH_CONVERSATIONS, FETCH_RECIPIENTS, START_CONVERSATION, 
 export const socket = io.connect('http://localhost:3000');
 
 
-//================================
+//= ===============================
 // Messaging actions
-//================================
+//= ===============================
 export function fetchConversations() {
-  const url = `/chat`;
-  return (dispatch) => getData(FETCH_CONVERSATIONS, CHAT_ERROR, true, url, dispatch);
+  const url = '/chat';
+  return dispatch => getData(FETCH_CONVERSATIONS, CHAT_ERROR, true, url, dispatch);
 }
 
 export function fetchConversation(conversation) {
   const url = `/chat/${conversation}`;
-  return (dispatch) => getData(FETCH_SINGLE_CONVERSATION, CHAT_ERROR, true, url, dispatch);
+  return dispatch => getData(FETCH_SINGLE_CONVERSATION, CHAT_ERROR, true, url, dispatch);
 }
 
 export function startConversation({ recipient, composedMessage }) {
@@ -30,12 +30,12 @@ export function startConversation({ recipient, composedMessage }) {
     // Clear form after message is sent
     dispatch(reset('composeMessage'));
     browserHistory.push(`/dashboard/conversation/view/${response.data.conversationId}`);
-  }
+  };
 }
 
 export function fetchRecipients() {
-  const url = `/chat/recipients`;
-  return (dispatch) => getData(FETCH_RECIPIENTS, CHAT_ERROR, true, url, dispatch);
+  const url = '/chat/recipients';
+  return dispatch => getData(FETCH_RECIPIENTS, CHAT_ERROR, true, url, dispatch);
 }
 
 export function sendReply(replyTo, { composedMessage }) {
@@ -47,5 +47,5 @@ export function sendReply(replyTo, { composedMessage }) {
     // Clear form after message is sent
     dispatch(reset('replyMessage'));
     socket.emit('new message', replyTo);
-  }
+  };
 }

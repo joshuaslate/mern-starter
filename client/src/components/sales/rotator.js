@@ -9,7 +9,7 @@ class Rotator extends Component {
 
     this.setPage = this.setPage.bind(this);
     this.state = {
-      index: 0
+      index: 0,
     };
   }
 
@@ -18,15 +18,14 @@ class Rotator extends Component {
   }
 
   render() {
-
-    const selectedSlide = this.props.rotators.filter(function(slider, index) {
+    const selectedSlide = this.props.rotators.filter(function (slider, index) {
       return index == this.state.index;
     }, this);
 
     return (
       <div className="rotator-container">
         <RotatorItem selectedSlide={selectedSlide} />
-        <RotatorNav length={this.props.rotators.length} active={this.state.index} setPage={this.setPage}/>
+        <RotatorNav length={this.props.rotators.length} active={this.state.index} setPage={this.setPage} />
       </div>
     );
   }

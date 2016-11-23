@@ -5,14 +5,14 @@ import { registerUser } from '../../actions/auth';
 
 const form = reduxForm({
   form: 'register',
-  validate
+  validate,
 });
 
 const renderField = field => (
-    <div>
-      <input className="form-control" {...field.input}/>
-      {field.touched && field.error && <div className="error">{field.error}</div>}
-    </div>
+  <div>
+    <input className="form-control" {...field.input} />
+    {field.touched && field.error && <div className="error">{field.error}</div>}
+  </div>
 );
 
 function validate(formProps) {
@@ -43,7 +43,7 @@ class Register extends Component {
   }
 
   renderAlert() {
-    if(this.props.errorMessage) {
+    if (this.props.errorMessage) {
       return (
         <div>
           <span><strong>Error!</strong> {this.props.errorMessage}</span>
@@ -57,17 +57,17 @@ class Register extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-      {this.renderAlert()}
-      <div className="row">
-        <div className="col-md-6">
-          <label>First Name</label>
-          <Field name="firstName" className="form-control" component={renderField} type="text" />
+        {this.renderAlert()}
+        <div className="row">
+          <div className="col-md-6">
+            <label>First Name</label>
+            <Field name="firstName" className="form-control" component={renderField} type="text" />
+          </div>
+          <div className="col-md-6">
+            <label>Last Name</label>
+            <Field name="lastName" className="form-control" component={renderField} type="text" />
+          </div>
         </div>
-        <div className="col-md-6">
-          <label>Last Name</label>
-          <Field name="lastName" className="form-control" component={renderField} type="text" />
-        </div>
-      </div>
         <div className="row">
           <div className="col-md-12">
             <label>Email</label>
@@ -90,7 +90,7 @@ function mapStateToProps(state) {
   return {
     errorMessage: state.auth.error,
     message: state.auth.message,
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
   };
 }
 

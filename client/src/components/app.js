@@ -6,13 +6,13 @@ class App extends Component {
   render() {
     return (
       <div>
-      <HeaderTemplate logo="Your Site" />
+        <HeaderTemplate logo="Your Site" />
 
-      <div className="container">
-        {this.props.children}
-      </div>
+        <div className="container">
+          {this.props.children}
+        </div>
 
-      <FooterTemplate />
+        <FooterTemplate />
       </div>
     );
   }

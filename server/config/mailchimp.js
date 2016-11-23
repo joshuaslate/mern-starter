@@ -8,15 +8,15 @@ const listID = '';
 // ========================
 // Subscribe to main list
 // ========================
-exports.subscribeToNewsletter = function(email) {
-    mailchimp.post('lists/' + listID + '/members', {
-      email_address: email,
-      status: 'subscribed'
+exports.subscribeToNewsletter = function (email) {
+  mailchimp.post(`lists/${listID}/members`, {
+    email_address: email,
+    status: 'subscribed'
   })
-  .then(function(result) {
-    console.log(email + ' has been subscribed to Mailchimp.');
+  .then((result) => {
+    console.log(`${email} has been subscribed to Mailchimp.`);
   })
-  .catch(function(err) {
+  .catch((err) => {
     console.log('Mailchimp error.');
   });
-}
+};

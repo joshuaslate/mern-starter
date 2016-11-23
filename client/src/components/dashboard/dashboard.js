@@ -13,7 +13,7 @@ class Dashboard extends Component {
   }
 
   isRole(roleToCheck, toRender) {
-    let userRole = cookie.load('user').role;
+    const userRole = cookie.load('user').role;
 
     if (userRole == roleToCheck) {
       return toRender;
@@ -50,9 +50,9 @@ class Dashboard extends Component {
     return (
       <div>
         <Link to="/dashboard/inbox">Inbox</Link> | <Link to="/profile/edit">Edit Profile</Link> | <Link to="/billing/settings">Billing</Link>
-        {this.isRole("Admin", this.adminMenu())}
-        {this.isRole("Owner", this.ownerMenu())}
-        {this.isRole("Client", this.clientMenu())}
+        {this.isRole('Admin', this.adminMenu())}
+        {this.isRole('Owner', this.ownerMenu())}
+        {this.isRole('Client', this.clientMenu())}
         <p>{this.props.content}</p>
       </div>
     );

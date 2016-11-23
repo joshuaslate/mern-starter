@@ -14,7 +14,7 @@ class FooterTemplate extends Component {
         </li>,
         <li key={3}>
           <Link to="logout">Logout</Link>
-        </li>
+        </li>,
       ];
     } else {
       return [
@@ -27,13 +27,12 @@ class FooterTemplate extends Component {
         </li>,
         <li key={3}>
           <Link to="register">Register</Link>
-        </li>
+        </li>,
       ];
     }
   }
 
   render() {
-
     const d = new Date();
     const year = d.getFullYear();
 
@@ -58,7 +57,7 @@ class FooterTemplate extends Component {
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
   };
 }
 

@@ -1,34 +1,34 @@
 const AuthenticationController = require('./controllers/authentication'),
-      UserController = require('./controllers/user'),
-      ChatController = require('./controllers/chat'),
-      CommunicationController = require('./controllers/communication'),
-      StripeController = require('./controllers/stripe'),
-      express = require('express'),
-      passportService = require('./config/passport'),
-      passport = require('passport');
+  UserController = require('./controllers/user'),
+  ChatController = require('./controllers/chat'),
+  CommunicationController = require('./controllers/communication'),
+  StripeController = require('./controllers/stripe'),
+  express = require('express'),
+  passportService = require('./config/passport'),
+  passport = require('passport');
 
 // Middleware to require login/auth
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
 // Constants for role types
-const REQUIRE_ADMIN = "Admin",
-      REQUIRE_OWNER = "Owner",
-      REQUIRE_CLIENT = "Client",
-      REQUIRE_MEMBER = "Member";
+const REQUIRE_ADMIN = 'Admin',
+  REQUIRE_OWNER = 'Owner',
+  REQUIRE_CLIENT = 'Client',
+  REQUIRE_MEMBER = 'Member';
 
-module.exports = function(app) {
+module.exports = function (app) {
   // Initializing route groups
   const apiRoutes = express.Router(),
-        authRoutes = express.Router(),
-        userRoutes = express.Router(),
-        chatRoutes = express.Router(),
-        payRoutes = express.Router(),
-        communicationRoutes = express.Router();
+    authRoutes = express.Router(),
+    userRoutes = express.Router(),
+    chatRoutes = express.Router(),
+    payRoutes = express.Router(),
+    communicationRoutes = express.Router();
 
-  //=========================
+  //= ========================
   // Auth Routes
-  //=========================
+  //= ========================
 
   // Set auth routes as subgroup/middleware to apiRoutes
   apiRoutes.use('/auth', authRoutes);
@@ -44,9 +44,9 @@ module.exports = function(app) {
 
   authRoutes.post('/reset-password/:token', AuthenticationController.verifyToken);
 
-  //=========================
+  //= ========================
   // User Routes
-  //=========================
+  //= ========================
 
   // Set user routes as a subgroup/middleware to apiRoutes
   apiRoutes.use('/user', userRoutes);
@@ -55,13 +55,13 @@ module.exports = function(app) {
   userRoutes.get('/:userId', requireAuth, UserController.viewProfile);
 
   // Test protected route
-  apiRoutes.get('/protected', requireAuth, function(req, res) {
-    res.send({ content: 'The protected test route is functional!'});
+  apiRoutes.get('/protected', requireAuth, (req, res) => {
+    res.send({ content: 'The protected test route is functional!' });
   });
 
-  //=========================
+  //= ========================
   // Chat Routes
-  //=========================
+  //= ========================
 
   // Set chat routes as a subgroup/middleware to apiRoutes
   apiRoutes.use('/chat', chatRoutes);
@@ -78,9 +78,9 @@ module.exports = function(app) {
   // Start new conversation
   chatRoutes.post('/new/:recipient', requireAuth, ChatController.newConversation);
 
-  //=========================
+  //= ========================
   // Payment Routes
-  //=========================
+  //= ========================
   apiRoutes.use('/pay', payRoutes);
 
   // Webhook endpoint for Stripe
@@ -101,9 +101,9 @@ module.exports = function(app) {
   // Fetch customer information
   payRoutes.get('/customer', requireAuth, StripeController.getCustomer);
 
-  //=========================
+  //= ========================
   // Communication Routes
-  //=========================
+  //= ========================
   apiRoutes.use('/communication', communicationRoutes);
 
   // Send email from contact form

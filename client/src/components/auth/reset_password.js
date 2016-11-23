@@ -5,7 +5,7 @@ import { resetPassword } from '../../actions/auth';
 
 const form = reduxForm({
   form: 'resetPassword',
-  validate
+  validate,
 });
 
 function validate(formProps) {
@@ -27,32 +27,32 @@ function validate(formProps) {
 }
 
 const renderField = field => (
-    <div>
-      <input className="form-control" {...field.input}/>
-      {field.touched && field.error && <div className="error">{field.error}</div>}
-    </div>
+  <div>
+    <input className="form-control" {...field.input} />
+    {field.touched && field.error && <div className="error">{field.error}</div>}
+  </div>
 );
 
 class ResetPassword extends Component {
   static contextTypes = {
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
   }
 
   componentWillMount() {
-    if(this.props.authenticated) {
+    if (this.props.authenticated) {
       this.context.router.push('/dashboard');
     }
   }
 
   componentWillUpdate(nextProps) {
-    if(nextProps.authenticated) {
+    if (nextProps.authenticated) {
       this.context.router.push('/dashboard');
     }
   }
 
   handleFormSubmit({ password }) {
     const resetToken = this.props.params.resetToken;
-    this.props.resetPassword( resetToken, { password });
+    this.props.resetPassword(resetToken, { password });
   }
 
   renderAlert() {

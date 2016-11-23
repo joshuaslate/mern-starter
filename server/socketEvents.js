@@ -1,7 +1,7 @@
-exports = module.exports = function(io) {
+exports = module.exports = function (io) {
   // Set socket.io listeners.
   io.on('connection', (socket) => {
-    //console.log('a user connected');
+    // console.log('a user connected');
 
     // On conversation entry, join broadcast channel
     socket.on('enter conversation', (conversation) => {
@@ -12,14 +12,14 @@ exports = module.exports = function(io) {
     socket.on('leave conversation', (conversation) => {
       socket.leave(conversation);
       // console.log('left ' + conversation);
-    })
+    });
 
     socket.on('new message', (conversation) => {
       io.sockets.in(conversation).emit('refresh messages', conversation);
-      });
+    });
 
     socket.on('disconnect', () => {
-      //console.log('user disconnected');
+      // console.log('user disconnected');
     });
   });
-}
+};

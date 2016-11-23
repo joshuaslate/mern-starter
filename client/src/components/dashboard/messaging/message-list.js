@@ -7,13 +7,12 @@ class MessageList extends Component {
   render() {
     return (
       <div className="messages">
-        {this.props.displayMessages.map(function(data) {
-            return <MessageItem
-            key={data._id}
-            message={data.body}
-            author={data.author}
-            timestamp={moment(data.createdAt).from(moment())} />
-        })}
+        {this.props.displayMessages.map(data => <MessageItem
+          key={data._id}
+          message={data.body}
+          author={data.author}
+          timestamp={moment(data.createdAt).from(moment())}
+        />)}
       </div>
     );
   }

@@ -1,43 +1,44 @@
-"use strict"
-const Conversation = require('../models/conversation'),
-      Message = require('../models/message'),
-      User = require('../models/user');
 
-exports.getConversations = function(req, res, next) {
+
+const Conversation = require('../models/conversation'),
+  Message = require('../models/message'),
+  User = require('../models/user');
+
+exports.getConversations = function (req, res, next) {
   // Only return one message from each conversation to display as snippet
   Conversation.find({ participants: req.user._id })
     .select('_id')
-    .exec(function(err, conversations) {
+    .exec((err, conversations) => {
       if (err) {
         res.send({ error: err });
         return next(err);
       }
 
       // Set up empty array to hold conversations + most recent message
-      let fullConversations = [];
-      conversations.forEach(function(conversation) {
-        Message.find({ 'conversationId': conversation._id })
+      const fullConversations = [];
+      conversations.forEach((conversation) => {
+        Message.find({ conversationId: conversation._id })
           .sort('-createdAt')
           .limit(1)
           .populate({
-            path: "author",
-            select: "profile.firstName profile.lastName"
+            path: 'author',
+            select: 'profile.firstName profile.lastName'
           })
-          .exec(function(err, message) {
+          .exec((err, message) => {
             if (err) {
               res.send({ error: err });
               return next(err);
             }
             fullConversations.push(message);
-            if(fullConversations.length === conversations.length) {
+            if (fullConversations.length === conversations.length) {
               return res.status(200).json({ conversations: fullConversations });
             }
           });
       });
-  });
-}
+    });
+};
 
-exports.getConversation = function(req, res, next) {
+exports.getConversation = function (req, res, next) {
   Message.find({ conversationId: req.params.conversationId })
     .select('createdAt body author')
     .sort('-createdAt')
@@ -45,7 +46,7 @@ exports.getConversation = function(req, res, next) {
       path: 'author',
       select: 'profile.firstName profile.lastName'
     })
-    .exec(function(err, messages) {
+    .exec((err, messages) => {
       if (err) {
         res.send({ error: err });
         return next(err);
@@ -53,15 +54,15 @@ exports.getConversation = function(req, res, next) {
 
       res.status(200).json({ conversation: messages });
     });
-  }
+};
 
-exports.newConversation = function(req, res, next) {
-  if(!req.params.recipient) {
+exports.newConversation = function (req, res, next) {
+  if (!req.params.recipient) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' });
     return next();
   }
 
-  if(!req.body.composedMessage) {
+  if (!req.body.composedMessage) {
     res.status(422).send({ error: 'Please enter a message.' });
     return next();
   }
@@ -70,7 +71,7 @@ exports.newConversation = function(req, res, next) {
     participants: [req.user._id, req.params.recipient]
   });
 
-  conversation.save(function(err, newConversation) {
+  conversation.save((err, newConversation) => {
     if (err) {
       res.send({ error: err });
       return next(err);
@@ -82,7 +83,7 @@ exports.newConversation = function(req, res, next) {
       author: req.user._id
     });
 
-    message.save(function(err, newMessage) {
+    message.save((err, newMessage) => {
       if (err) {
         res.send({ error: err });
         return next(err);
@@ -92,22 +93,22 @@ exports.newConversation = function(req, res, next) {
       return next();
     });
   });
-}
+};
 
-exports.sendReply = function(req, res, next) {
+exports.sendReply = function (req, res, next) {
   const reply = new Message({
     conversationId: req.params.conversationId,
     body: req.body.composedMessage,
     author: req.user._id
   });
 
-  reply.save(function(err, sentReply) {
+  reply.save((err, sentReply) => {
     if (err) {
       res.send({ error: err });
       return next(err);
     }
 
     res.status(200).json({ message: 'Reply successfully sent!' });
-    return(next);
+    return (next);
   });
-}
+};

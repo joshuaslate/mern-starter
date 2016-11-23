@@ -4,13 +4,13 @@ import { Field, reduxForm } from 'redux-form';
 import { sendReply } from '../../../actions/messaging';
 
 const form = reduxForm({
-  form: 'replyMessage'
+  form: 'replyMessage',
 });
 
 const renderField = field => (
-    <div>
-      <input className="form-control" autoComplete="off" {...field.input}/>
-    </div>
+  <div>
+    <input className="form-control" autoComplete="off" {...field.input} />
+  </div>
 );
 
 class ReplyMessage extends Component {
@@ -39,8 +39,8 @@ class ReplyMessage extends Component {
 
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-      {this.renderAlert()}
-      <Field name="composedMessage" className="form-control" component={renderField} type="text" placeholder="Type here to chat..." />
+        {this.renderAlert()}
+        <Field name="composedMessage" className="form-control" component={renderField} type="text" placeholder="Type here to chat..." />
         <button action="submit" className="btn btn-primary">Send</button>
       </form>
     );
@@ -50,8 +50,8 @@ class ReplyMessage extends Component {
 function mapStateToProps(state) {
   return {
     recipients: state.communication.recipients,
-    errorMessage: state.communication.error
-  }
+    errorMessage: state.communication.error,
+  };
 }
 
 export default connect(mapStateToProps, { sendReply })(form(ReplyMessage));

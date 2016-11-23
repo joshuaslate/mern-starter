@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { loginUser } from '../../actions/auth';
 
 const form = reduxForm({
-  form: 'login'
+  form: 'login',
 });
 
 class Login extends Component {
@@ -14,7 +14,7 @@ class Login extends Component {
   }
 
   renderAlert() {
-    if(this.props.errorMessage) {
+    if (this.props.errorMessage) {
       return (
         <div>
           <span><strong>Error!</strong> {this.props.errorMessage}</span>
@@ -29,7 +29,7 @@ class Login extends Component {
     return (
       <div>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        {this.renderAlert()}
+          {this.renderAlert()}
           <div>
             <label>Email</label>
             <Field name="email" className="form-control" component="input" type="text" />
@@ -50,7 +50,7 @@ function mapStateToProps(state) {
   return {
     errorMessage: state.auth.error,
     message: state.auth.message,
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
   };
 }
 

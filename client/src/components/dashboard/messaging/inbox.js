@@ -12,9 +12,9 @@ class Inbox extends Component {
   }
 
   renderInbox() {
-    if(this.props.conversations && this.props.conversations.length > 0) {
+    if (this.props.conversations && this.props.conversations.length > 0) {
       return (
-          <ConversationList conversations={this.props.conversations} />
+        <ConversationList conversations={this.props.conversations} />
       );
     }
 
@@ -37,8 +37,8 @@ class Inbox extends Component {
 
 function mapStateToProps(state) {
   return {
-  conversations: state.communication.conversations
-  }
+    conversations: state.communication.conversations,
+  };
 }
 
 export default connect(mapStateToProps, { fetchConversations })(Inbox);

@@ -16,7 +16,7 @@ class BillingSettings extends Component {
       cancelConfirm: false,
       changeSubscription: false,
       updateBilling: false,
-      newPlan: ''
+      newPlan: '',
     };
   }
 
@@ -45,42 +45,41 @@ class BillingSettings extends Component {
   }
 
   renderPlan() {
-    if(this.props.customer.subscriptions) {
-      let mostRecentSubscription = this.props.customer.subscriptions.total_count - 1;
-      let mostRecentSource = this.props.customer.sources.total_count - 1;
-      let subscribedPlan = this.props.customer.subscriptions.data[mostRecentSubscription].plan.id;
-      let lastFour = this.props.customer.sources.data[mostRecentSource].last4;
-      let pmtAmt = ((this.props.customer.subscriptions.data[mostRecentSubscription].plan.amount) / 100).toFixed(2);
-      let pmtDate = moment.unix(this.props.customer.subscriptions.data[mostRecentSubscription].current_period_end).format("dddd, MMMM Do YYYY").toString();
+    if (this.props.customer.subscriptions) {
+      const mostRecentSubscription = this.props.customer.subscriptions.total_count - 1;
+      const mostRecentSource = this.props.customer.sources.total_count - 1;
+      const subscribedPlan = this.props.customer.subscriptions.data[mostRecentSubscription].plan.id;
+      const lastFour = this.props.customer.sources.data[mostRecentSource].last4;
+      const pmtAmt = ((this.props.customer.subscriptions.data[mostRecentSubscription].plan.amount) / 100).toFixed(2);
+      const pmtDate = moment.unix(this.props.customer.subscriptions.data[mostRecentSubscription].current_period_end).format('dddd, MMMM Do YYYY').toString();
 
-      if(this.props.customer.subscriptions.data[mostRecentSubscription].cancel_at_period_end) {
+      if (this.props.customer.subscriptions.data[mostRecentSubscription].cancel_at_period_end) {
         return (
-            <div className="active-subscription">
+          <div className="active-subscription">
               Your {subscribedPlan} plan will expire on {pmtDate}. You will not be charged again.
             </div>
-          );
+        );
       } else {
-
         return (
-            <div className="active-subscription">
+          <div className="active-subscription">
               You are subscribed to the {subscribedPlan} plan.
               Your credit card ending in {lastFour} will be charged ${pmtAmt} on {pmtDate}.
 
               {this.renderAccountActions()}
-            </div>
-          );
-        }
+          </div>
+        );
       }
+    }
 
     return (
       <div className="loading">
         Loading...
       </div>
-    )
+    );
   }
 
   renderAccountActions() {
-    if(this.state.cancelConfirm) {
+    if (this.state.cancelConfirm) {
       // TODO: Event handler for yes to dispatch action to cancel sub + redirect to "sorry to see you go" page
       return (
         <div className="cancel-confirm">
@@ -91,7 +90,7 @@ class BillingSettings extends Component {
           </div>
         </div>
       );
-    } else if (this.state.changeSubscription){
+    } else if (this.state.changeSubscription) {
       return (
         <div className="action-buttons">
           <select className="form-control" name="newPlan" value={this.state.newPlan} onChange={this.handlePlanChange.bind(this)}>
@@ -123,7 +122,7 @@ class BillingSettings extends Component {
   toggleChangeSubscription(e) {
     e.preventDefault();
 
-    if(this.state.changeSubscription) {
+    if (this.state.changeSubscription) {
       this.setState({ changeSubscription: false });
     } else {
       this.setState({ changeSubscription: true });
@@ -133,7 +132,7 @@ class BillingSettings extends Component {
   toggleCancelConfirm(e) {
     e.preventDefault();
 
-    if(this.state.cancelConfirm) {
+    if (this.state.cancelConfirm) {
       this.setState({ cancelConfirm: false });
     } else {
       this.setState({ cancelConfirm: true });
@@ -143,7 +142,7 @@ class BillingSettings extends Component {
   toggleUpdateBilling(e) {
     e.preventDefault();
 
-    if(this.state.updateBilling) {
+    if (this.state.updateBilling) {
       this.setState({ updateBilling: false });
     } else {
       this.setState({ updateBilling: true });
@@ -162,7 +161,7 @@ class BillingSettings extends Component {
 
 function mapStateToProps(state) {
   return {
-    customer: state.customer.customer
+    customer: state.customer.customer,
   };
 }
 

@@ -4,22 +4,22 @@ import { Field, reduxForm } from 'redux-form';
 import { getForgotPasswordToken } from '../../actions/auth';
 
 const form = reduxForm({
-  form: 'forgotPassword'
+  form: 'forgotPassword',
 });
 
 class ForgotPassword extends Component {
   static contextTypes = {
-    router: React.PropTypes.object
+    router: React.PropTypes.object,
   }
 
   componentWillMount() {
-    if(this.props.authenticated) {
+    if (this.props.authenticated) {
       this.context.router.push('/dashboard');
     }
   }
 
   componentWillUpdate(nextProps) {
-    if(nextProps.authenticated) {
+    if (nextProps.authenticated) {
       this.context.router.push('/dashboard');
     }
   }
@@ -29,7 +29,7 @@ class ForgotPassword extends Component {
   }
 
   renderAlert() {
-    if(this.props.errorMessage) {
+    if (this.props.errorMessage) {
       return (
         <div>
           <span><strong>Error!</strong> {this.props.errorMessage}</span>
@@ -58,7 +58,7 @@ function mapStateToProps(state) {
   return {
     errorMessage: state.auth.error,
     message: state.auth.message,
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
   };
 }
 
