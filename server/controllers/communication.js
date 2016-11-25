@@ -11,6 +11,5 @@ exports.sendContactForm = function (req, res, next) {
 
   mailgun.contactForm(fromText, message);
 
-  res.status(200).json({ message: 'Your email has been sent. We will be in touch with you soon.' });
-  next();
+  return res.status(200).json({ message: 'Your email has been sent. We will be in touch with you soon.' });
 };

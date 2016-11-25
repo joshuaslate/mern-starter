@@ -1,5 +1,3 @@
-
-
 const stripeConfig = require('../config/stripe');
 const config = require('../config/main');
 const mailgun = require('../config/mailgun');
@@ -34,7 +32,7 @@ exports.webhook = function (req, res, next) {
             if (err) { return err; }
 
             console.log(`${user.email} payment was successful. Subscription good until ${user.stripe.activeUntil}.`);
-            return next(user);
+            return res.status(200);
           });
         });
         break;
@@ -59,8 +57,7 @@ exports.webhook = function (req, res, next) {
     }
 
       // Return 200 status to inform Stripe the webhook was received
-    res.status(200);
-    return next();
+    return res.status(200);
   });
 };
 
@@ -89,8 +86,7 @@ exports.createSubscription = function (req, res, next) {
             return next(err);
           }
 
-          res.status(200).send({ message: `You have been successfully subscribed to the ${plan} plan.` });
-          return next();
+          return res.status(200).send({ message: `You have been successfully subscribed to the ${plan} plan.` });
         });
       }).catch(err => next(err));
     }
@@ -113,8 +109,7 @@ exports.createSubscription = function (req, res, next) {
           return next(err);
         }
 
-        res.status(200).send({ message: `You have been successfully subscribed to the ${plan} plan.` });
-        return next();
+        return res.status(200).send({ message: `You have been successfully subscribed to the ${plan} plan.` });
       });
     }).catch(err => next(err));
   });
@@ -138,8 +133,7 @@ exports.changeSubscription = function (req, res, next) {
               return next(err);
             }
 
-            res.status(200).send({ message: `Your subscription has been successfully updated to the ${subscription.plan.id} plan.` });
-            return next();
+            return res.status(200).send({ message: `Your subscription has been successfully updated to the ${subscription.plan.id} plan.` });
           });
         })
         .catch(err => err);
@@ -196,7 +190,7 @@ exports.updateCustomerBillingInfo = function (req, res, next) {
           return next(err);
         }
 
-        res.status(200).json({ message: 'Payment method successfully updated.' });
+        return res.status(200).json({ message: 'Payment method successfully updated.' });
       });
     }).catch(err => next(err));
   });

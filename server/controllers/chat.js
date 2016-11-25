@@ -1,5 +1,3 @@
-
-
 const Conversation = require('../models/conversation'),
   Message = require('../models/message'),
   User = require('../models/user');
@@ -52,7 +50,7 @@ exports.getConversation = function (req, res, next) {
         return next(err);
       }
 
-      res.status(200).json({ conversation: messages });
+      return res.status(200).json({ conversation: messages });
     });
 };
 
@@ -89,8 +87,7 @@ exports.newConversation = function (req, res, next) {
         return next(err);
       }
 
-      res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
-      return next();
+      return res.status(200).json({ message: 'Conversation started!', conversationId: conversation._id });
     });
   });
 };
@@ -108,7 +105,6 @@ exports.sendReply = function (req, res, next) {
       return next(err);
     }
 
-    res.status(200).json({ message: 'Reply successfully sent!' });
-    return (next);
+    return res.status(200).json({ message: 'Reply successfully sent!' });
   });
 };

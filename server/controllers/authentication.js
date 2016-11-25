@@ -105,8 +105,7 @@ exports.roleAuthorization = function (role) {
         return next();
       }
 
-      res.status(401).json({ error: 'You are not authorized to view this content.' });
-      return next('Unauthorized');
+      return res.status(401).json({ error: 'You are not authorized to view this content.' });
     });
   };
 };
@@ -150,8 +149,7 @@ exports.forgotPassword = function (req, res, next) {
           // Otherwise, send user email via Mailgun
         mailgun.sendEmail(existingUser.email, message);
 
-        res.status(200).json({ message: 'Please check your email for the link to reset your password.' });
-        next();
+        return res.status(200).json({ message: 'Please check your email for the link to reset your password.' });
       });
     });
   });
@@ -186,8 +184,7 @@ exports.verifyToken = function (req, res, next) {
         // Otherwise, send user email confirmation of password change via Mailgun
       mailgun.sendEmail(resetUser.email, message);
 
-      res.status(200).json({ message: 'Password changed successfully. Please login with your new password.' });
-      next();
+      return res.status(200).json({ message: 'Password changed successfully. Please login with your new password.' });
     });
   });
 };
