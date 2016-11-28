@@ -1,7 +1,9 @@
+import { ROLE_MEMBER, ROLE_CLIENT, ROLE_OWNER, ROLE_ADMIN } from '../constants';
 // Importing Node packages required for schema
-const mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  bcrypt = require('bcrypt-nodejs');
+const mongoose = require('mongoose');
+
+const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt-nodejs');
 
 //= ===============================
 // User Schema
@@ -23,7 +25,7 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['Member', 'Client', 'Owner', 'Admin'],
+    enum: [ROLE_MEMBER, ROLE_CLIENT, ROLE_OWNER, ROLE_ADMIN],
     default: 'Member'
   },
   stripe: {

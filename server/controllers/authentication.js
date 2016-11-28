@@ -4,6 +4,7 @@ const User = require('../models/user');
 const mailgun = require('../config/mailgun');
 const mailchimp = require('../config/mailchimp');
 const setUserInfo = require('../helpers').setUserInfo;
+const getRole = require('../helpers').getRole;
 const config = require('../config/main');
 
 // Generate JWT
@@ -90,7 +91,7 @@ exports.register = function (req, res, next) {
 //= =======================================
 
 // Role authorization check
-exports.roleAuthorization = function (role) {
+exports.roleAuthorization = function (requiredRole) {
   return function (req, res, next) {
     const user = req.user;
 
@@ -101,7 +102,7 @@ exports.roleAuthorization = function (role) {
       }
 
       // If user is found, check role.
-      if (foundUser.role == role) {
+      if (getRole(foundUser.role) >= getRole(requiredRole)) {
         return next();
       }
 

@@ -1,21 +1,18 @@
-const AuthenticationController = require('./controllers/authentication'),
-  UserController = require('./controllers/user'),
-  ChatController = require('./controllers/chat'),
-  CommunicationController = require('./controllers/communication'),
-  StripeController = require('./controllers/stripe'),
-  express = require('express'),
-  passportService = require('./config/passport'),
-  passport = require('passport');
+import { ROLE_MEMBER, ROLE_CLIENT, ROLE_OWNER, ROLE_ADMIN } from './constants';
+
+const AuthenticationController = require('./controllers/authentication');
+const UserController = require('./controllers/user');
+const ChatController = require('./controllers/chat');
+const CommunicationController = require('./controllers/communication');
+const StripeController = require('./controllers/stripe');
+const express = require('express');
+const passport = require('passport');
+
+const passportService = require('./config/passport');
 
 // Middleware to require login/auth
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
-
-// Constants for role types
-const REQUIRE_ADMIN = 'Admin',
-  REQUIRE_OWNER = 'Owner',
-  REQUIRE_CLIENT = 'Client',
-  REQUIRE_MEMBER = 'Member';
 
 module.exports = function (app) {
   // Initializing route groups
@@ -42,6 +39,7 @@ module.exports = function (app) {
   // Password reset request route (generate/send token)
   authRoutes.post('/forgot-password', AuthenticationController.forgotPassword);
 
+  // Password reset route (change password using token)
   authRoutes.post('/reset-password/:token', AuthenticationController.verifyToken);
 
   //= ========================
@@ -57,6 +55,10 @@ module.exports = function (app) {
   // Test protected route
   apiRoutes.get('/protected', requireAuth, (req, res) => {
     res.send({ content: 'The protected test route is functional!' });
+  });
+
+  apiRoutes.get('/admins-only', requireAuth, AuthenticationController.roleAuthorization(ROLE_ADMIN), (req, res) => {
+    res.send({ content: 'Admin dashboard is working.' });
   });
 
   //= ========================
