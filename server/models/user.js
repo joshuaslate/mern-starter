@@ -29,7 +29,7 @@ const UserSchema = new Schema({
   role: {
     type: String,
     enum: [ROLE_MEMBER, ROLE_CLIENT, ROLE_OWNER, ROLE_ADMIN],
-    default: 'Member'
+    default: ROLE_MEMBER
   },
   stripe: {
     customerId: { type: String },
