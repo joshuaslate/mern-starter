@@ -14,5 +14,9 @@ module.exports = {
   // SendGrid API key
   sendgridApiKey: 'sendgrid api key here',
   // Stripe API key
-  stripeApiKey: 'stripe api key goes here'
+  stripeApiKey: 'stripe api key goes here',
+  // necessary in order to run tests in parallel of the main app
+  test_port: 3001,
+  test_db: 'mern-starter-test',
+  test_env: 'test'
 };

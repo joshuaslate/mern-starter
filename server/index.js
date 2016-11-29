@@ -12,8 +12,14 @@ const express = require('express'),
 mongoose.connect(config.database);
 
 // Start the server
-const server = app.listen(config.port);
-console.log(`Your server is running on port ${config.port}.`);
+let server;
+if (process.env.NODE_ENV != config.test_env) {
+  server = app.listen(config.port);
+  console.log(`Your server is running on port ${config.port}.`);
+} else{
+  server = app.listen(config.test_port);
+}
+
 
 const io = require('socket.io').listen(server);
 
@@ -38,3 +44,6 @@ app.use((req, res, next) => {
 
 // Import routes to be served
 router(app);
+
+// necessary for testing
+module.exports = server;
