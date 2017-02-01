@@ -41,7 +41,7 @@ export function registerUser({ email, firstName, lastName, password }) {
 
 export function logoutUser(error) {
   return function (dispatch) {
-    dispatch({ type: UNAUTH_USER });
+    dispatch({ type: UNAUTH_USER, payload: error || '' });
     cookie.remove('token', { path: '/' });
     cookie.remove('user', { path: '/' });
 
