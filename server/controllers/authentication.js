@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('../models/user');
 const mailgun = require('../config/mailgun');
-const mailchimp = require('../config/mailchimp');
+// const mailchimp = require('../config/mailchimp');
 const setUserInfo = require('../helpers').setUserInfo;
 const getRole = require('../helpers').getRole;
 const config = require('../config/main');
@@ -11,7 +11,7 @@ const config = require('../config/main');
 // TO-DO Add issuer and audience
 function generateToken(user) {
   return jwt.sign(user, config.secret, {
-    expiresIn: 10080 // in seconds
+    expiresIn: 604800 // in seconds
   });
 }
 

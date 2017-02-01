@@ -25,12 +25,15 @@ export function fetchUser(uid) {
 }
 
 export function errorHandler(dispatch, error, type) {
-  let errorMessage = (error.data.error) ? error.data.error : error.data;
+  console.log('Error type: ', type);
+  console.log(error);
+
+  let errorMessage = error.response ? error.response.data : error;
 
    // NOT AUTHENTICATED ERROR
-  if (error.status === 401) {
+  if (error.status === 401 || error.response.status === 401) {
     errorMessage = 'You are not authorized to do this.';
-    dispatch(logoutUser(errorMessage));
+    return dispatch(logoutUser(errorMessage));
   }
 
   dispatch({
