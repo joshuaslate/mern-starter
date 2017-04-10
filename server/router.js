@@ -1,3 +1,4 @@
+"use strict"
 const AuthenticationController = require('./controllers/authentication');
 const UserController = require('./controllers/user');
 const ChatController = require('./controllers/chat');
