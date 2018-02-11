@@ -4,6 +4,7 @@
   "description": "API server for MERN Starter, powered by Express.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "mocha -S --ui bdd --require ./tests/spec_helper.js --recursive ./tests --reporter spec",
     "dev": "nodemon index.js"
   },
