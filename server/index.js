@@ -7,9 +7,13 @@ const express = require('express'),
   mongoose = require('mongoose'),
   socketEvents = require('./socketEvents'),
   config = require('./config/main');
+  cors = require('cors');
 
 // Database Setup
 mongoose.connect(config.database);
+
+// for testing
+app.use(cors());
 
 // Start the server
 let server;
