@@ -42,7 +42,7 @@
     "eslint-plugin-react": "^6.6.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.19.1",
-    "should": "^11.1.1",
+    "should": "^13.2.3",
     "supertest": "^2.0.0"
   }
 }
