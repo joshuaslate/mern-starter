@@ -27,7 +27,7 @@
     "mongoose": "^4.4.13",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
-    "passport-jwt": "^2.0.0",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "sendgrid": "^4.7.1",
     "socket.io": "^1.4.6",
