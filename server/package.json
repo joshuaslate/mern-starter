@@ -31,7 +31,7 @@
     "passport-local": "^1.0.0",
     "sendgrid": "^4.7.1",
     "socket.io": "^1.4.6",
-    "stripe": "^4.6.0"
+    "stripe": "^7.10.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
