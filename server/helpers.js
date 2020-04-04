@@ -1,3 +1,4 @@
+"use strict"
 const ROLE_MEMBER = require('./constants').ROLE_MEMBER;
 const ROLE_CLIENT = require('./constants').ROLE_CLIENT;
 const ROLE_OWNER = require('./constants').ROLE_OWNER;
